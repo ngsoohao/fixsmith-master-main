@@ -1,4 +1,4 @@
-# FIXSMITH
+###FIXSMITH
 ## Greetings Dear Hiring Managers,
 ### This is my final year project, a web apps that let customer to order handymen service ( home repairs) like how you buy something from grab / shopee
 
