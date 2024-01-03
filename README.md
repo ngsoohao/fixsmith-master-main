@@ -9,6 +9,7 @@ npm i
 npm run build
 npm run dev
 
+composer install
 composer update
 php artisan serve
 ```
