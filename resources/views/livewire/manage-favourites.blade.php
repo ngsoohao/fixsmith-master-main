@@ -7,7 +7,7 @@
         </div>
         <div class="flex-grow w-6/7">
             <h1 class="text-xl font-bold">Favourites</h1>
-            <section x-data="{ open: false }">
+            <section x-data="{ open: false }" x-cloak>
                 <button class="absolute p-2 text-white rounded-md right-20 bg-slate-700 hover:bg-slate-400" @click="open = true">Add New Favourite List</button>
          
                 <div x-show="open"  class="fixed inset-0 bg-black bg-opacity-50">

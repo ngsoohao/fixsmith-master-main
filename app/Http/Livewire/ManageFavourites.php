@@ -12,11 +12,10 @@ class ManageFavourites extends Component
     public $allFavList;
     public $currentEditingID;
     public $editedFavouriteListName;
-
-
+    
     public function mount()
     {
-        $this->allFavList = FavouriteList::all();
+        $this->allFavList =FavouriteList::where('id',auth()->user()->id)->get();
     }
 
     public function enterEditMode($favouriteListID)
@@ -40,6 +39,8 @@ class ManageFavourites extends Component
         $favouriteList->id=auth()->user()->id;
         $favouriteList->save();
 
+        return redirect('manage-favourites');
+
     }
 
     public function updateFavList($favouriteListID){
@@ -59,8 +60,8 @@ class ManageFavourites extends Component
 
     public function render()
     {
-        $user = auth()->user();
-        $allFavList=FavouriteList::where('id',$user->id)->get();
-        return view('livewire.manage-favourites',compact('allFavList'));
+        return view('livewire.manage-favourites',[
+            'allFavList'=> $this->allFavList,
+        ]);
     }
 }

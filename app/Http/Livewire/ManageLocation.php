@@ -52,6 +52,7 @@ class ManageLocation extends Component
 
         $locations->save();
         $this->resetForm();
+        session()->flash('success','New address added sucessfully!');
         return redirect()->route('manage-location');
         
         

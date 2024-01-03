@@ -20,9 +20,9 @@ class LocationForm extends Component
         'Perlis', 'Putrajaya', 'Sabah', 'Sarawak', 'Selangor', 'Terengganu',
     ];
 
-    public function mount($locationid)
+    public function mount($locationID)
     {
-        $this->location = Location::find($locationid);
+        $this->location = Location::find($locationID);
         $this->unitNo = $this->location->unitNo;
         $this->street = $this->location->street;
         $this->city = $this->location->city;

@@ -43,6 +43,8 @@
                     <label for="serviceDetail" class="block mb-1">Service details</label>
                     <textarea wire:model="serviceDescription" wire:ignore placeholder="Please describe the issue and service needed" class="w-full px-4 py-2 border rounded"></textarea>
                 </div>
+
+                
         
                 <div class="flex items-center justify-between">
                     <button class="px-4 py-2 text-white rounded-md bg-slate-600 hover:bg-slate-400 text-md" type="submit">Make Booking</button>
@@ -55,9 +57,12 @@
         
 
     </div>
+    
+
+    
     @livewireScripts
 
-    <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.8.0/pikaday.min.js"></script>
@@ -80,5 +85,5 @@
                 }
               });
             });
-          </script>
+        </script>
 </div>
