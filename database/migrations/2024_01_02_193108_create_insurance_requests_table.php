@@ -15,7 +15,12 @@ return new class extends Migration
             $table->id('insuranceRequestID');
             $table->string('title');
             $table->text('description');
+            $table->date('serviceDate')->nullable(); 
+            $table->time('serviceTime')->nullable(); 
+            $table->enum('status',['requested','accepted','declined','pending reschedule','completed']);
+            $table->text('declineReason')->nullable();
             $table->unsignedBigInteger('insuranceID');
+            $table->string('servicedProof')->nullable();
             $table->timestamps();
 
             $table->foreign('insuranceID')->references('insuranceID')->on('insurances')->cascadeOnDelete();

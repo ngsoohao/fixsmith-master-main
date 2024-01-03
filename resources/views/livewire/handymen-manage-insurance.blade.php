@@ -25,46 +25,34 @@
                 </thead>
                 <tbody>
                     @foreach ($insurances as $insurance)
-                    <tr class="text-center">
-                        <td class="p-4 border border-slate-600">{{ $insurance->insuranceID }}</td>
-                        <td class="p-4 border border-slate-600">
-                            <button  wire:ignore wire:click.prevent="toggleOrderDetails({{ $insurance->id }})" class="underline hover:text-slate-400">Click to View Order</button>
-                        </td>                              
-                        <td class="p-4 border border-slate-600">{{ $insurance->paidAmount }}</td>
-                        <td class="p-4 border border-slate-600">{{ $insurance->status }}</td>
-                        <td class="p-4 border border-slate-600">
-                            <a class="underline hover:text-slate-400" href="{{ route('manage-insurance-request',[$insurance->insuranceID]) }}">
-                                    View Submitted Request
-                            </a>
-                        </td> 
-                        <td class="p-4 border border-slate-600"><button class="px-4 py-2 text-white rounded-md bg-slate-700 hover:bg-slate-400">Accept</button></td>
-                    </tr>
-
-                    <!-- Order details container -->
-                        @if ($showOrderDetails[$insurance->id])
-                            <div  class="fixed top-0 bottom-0 left-0 right-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-75">
-                                <div class="w-auto p-8 bg-white rounded-md max-w-1/2" >
-                                    <div class="mx-auto">
-                                        <livewire:view-order-details :orderID='$insurance->orderID'>
-                                    </div>
-                                    <button wire:click="toggleOrderDetails({{ $insurance->id }})" class="px-4 py-2 mt-4 text-white rounded-md bg-slate-700 hover:bg-slate-400">Close</button>                                    
-
-                                </div>
-                                
-                            </div>
+                        @if ($currentState[$insurance->insuranceID]==!NULL) 
+                            <tr class="text-center">
+                                <td class="p-4 border border-slate-600">{{ $insurance->insuranceID }}</td>
+                                <td class="p-4 border border-slate-600">
+                                    <a href="{{ route('view-insured-orders',[$insurance->insuranceID]) }}" class="underline">Click To View Order</a>
+                                </td>                              
+                                <td class="p-4 border border-slate-600">{{ $insurance->paidAmount }}</td>
+                                <td class="p-4 border border-slate-600">{{ $insurance->status }}</td>
+                                <td class="p-4 border border-slate-600">
+                                    
+                                    <p class="mb-3 font-bold">Current status :{{ $currentState[$insurance->insuranceID] ?? 'N/A' }}</p>
+                                    
+                                    <a class="underline hover:text-slate-400" href="{{ route('manage-insurance-request',[$insurance->insuranceID]) }}">
+                                            View Submitted Request
+                                    </a>
+                                </td> 
+                                <td class="p-4 border border-slate-600">
+                                    @if($currentState[$insurance->insuranceID]=='accepted')
+                                    <button class="px-4 py-2 text-white rounded-md bg-slate-700 hover:bg-slate-400" >Add Service Proof</button>
+                                    @endif
+        
+                                </td>
+                            </tr>
                         @endif
-
                     @endforeach
                 </tbody>
-                
-
             </table>
-                
-           
         </div>
     </div>
-    
-
-    
     @livewireScripts
 </div>

@@ -23,6 +23,7 @@ use App\Http\Livewire\ManageServiceProfile;
 use App\Http\Livewire\ReviewHistory;
 use App\Http\Livewire\UserManageBooking;
 use App\Http\Livewire\UserManageInsurance;
+use App\Http\Livewire\ViewInsuredOrders;
 
 /*
 |--------------------------------------------------------------------------
@@ -76,6 +77,7 @@ Route::group(['middleware' => \App\Http\Middleware\CheckRole::class . ':handymen
     Route::get('/manage-favourite-contents/{favouriteListID}',ManageFavouriteContents::class)->name('manage-favourite-contents');
     Route::get('/user-manage-insurance',UserManageInsurance::class)->name('user-manage-insurance');
     Route::get('/insurance-request/{insuranceID}',ManageInsuranceRequest::class)->name('manage-insurance-request');
+    Route::get('/view-insured-orders/{insuranceID}',ViewInsuredOrders::class)->name('view-insured-orders');
 
 
 

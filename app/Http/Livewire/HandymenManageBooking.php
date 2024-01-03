@@ -39,6 +39,8 @@ class HandymenManageBooking extends Component
             $incomingOrder->price = $this->price[$orderID] ?? null;
             $incomingOrder->save();
         }
+        return redirect('handymen-manage-booking');
+
     }
 
 
@@ -49,6 +51,8 @@ class HandymenManageBooking extends Component
             $incomingOrder->status = 'delivered';
             $incomingOrder->save();
         }
+        return redirect('handymen-manage-booking');
+
     }
 
 

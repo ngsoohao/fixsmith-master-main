@@ -17,27 +17,42 @@ class ManageInsuranceRequest extends Component
     public $insuranceID;
     public $title;
     public $description;
-    public $imagePath;
+    public $imagePath=[];
     public $uploadedImages;
     public $submittedClaim;
     public $claimExistence;
+    public $currentState;
 
     public function mount($insuranceID){
         $this->insuranceID=$insuranceID;        
         $this->getImagePath($insuranceID);
         $this->checkInsuranceRequestExistence($insuranceID);
+
+        //check the current status of this insurance request 
+        $insuranceRequest=InsuranceRequest::where('insuranceID',$insuranceID)->first();
+        if($insuranceRequest){
+            $this->currentState=$insuranceRequest->status;
+        }
+        
+        
     }
 
     public function newInsuranceRequest(){
+
+        //create new insurance request   
         $insuranceReq= new InsuranceRequest;
         $insuranceReq->title=$this->title;
         $insuranceReq->description=$this->description;
         $insuranceReq->insuranceID=$this->insuranceID;
+        $insuranceReq->status='requested';
         $insuranceReq->save();
-
-        $insurance=Insurance::where('insuranceID',$this->insuranceID)->first();
-        $insurance->status='requested';
-        $insurance->save();
+        //upload image
+        $insuranceReqImg=new InsuranceRequestImage;
+        $path = $this->image->store('InsuranceReqImg', 'public');
+        $insuranceReqImg->imagePath=$path;
+        $insuranceReqImg->insuranceID =$this->insuranceID;
+        $insuranceReqImg->save();
+        return redirect('manage-insurance-request');
 
         
     }
@@ -72,16 +87,6 @@ class ManageInsuranceRequest extends Component
         $this->imagePath = $imagePaths; 
     
         return $this->imagePath;
-    }
-
-    public function uploadImages($insuranceID){
-      
-            $path = $this->image->store('InsuranceReqImg', 'public');
-
-            $insuranceReqImg = new InsuranceRequestImage;
-            $insuranceReqImg->imagePath=$path;
-            $insuranceReqImg->insuranceID =$insuranceID;
-            $insuranceReqImg->save();
     }
     
 
