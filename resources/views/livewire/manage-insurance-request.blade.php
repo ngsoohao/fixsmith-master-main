@@ -1,38 +1,85 @@
 <div class="py-2 ">
     @livewireStyles
     @if ($claimExistence==false) 
-        <div class="rounded-lg bg-zinc-200">
+        <section>
+            <div class="rounded-lg bg-zinc-200">
 
-            <form class="max-w-2xl mx-auto">
-                <h1 class="text-xl font-bold ">Please Tell Us What Happened</h1>
+                <form class="max-w-2xl mx-auto">
+                    <h1 class="text-xl font-bold ">Please Tell Us What Happened</h1>
 
-                <div class="mt-2">
+                    <div class="mt-2">
 
-                    <div class="mb-2">
-                        <h2 class="text-md">Title</h2>
-                        <input type="text" wire:model='title' class="w-full">
-                    </div>
+                        <div class="mb-2">
+                            <h2 class="text-md">Title</h2>
+                            <input type="text" wire:model='title' class="w-full rounded-md ">
+                        </div>
 
-                    <div class="mb-2">
-                        <h2 class="text-md">Please describe the problem you after encountered.</h2>
-                        <textarea wire:model='description' class="w-full"></textarea>
-                    </div>
-            
-                    <div class="mb-2">
-                        <h2 class="text-md">Could you please provide us photos for references</h2>
-                        <input type="file" wire:model="image" class="mt-2">
+                        <div class="mb-2">
+                            <h2 class="text-md">Please describe the problem you after encountered.</h2>
+                            <textarea wire:model='description' class="w-full rounded-md"></textarea>
+                        </div>
                         
-                        <h2 class="mt-2 text-lg font-bold ">Preview</h2>
-                        @if ($image)
-                            <img src="{{ $image->temporaryUrl() }}" alt="preview" class="mt-4" width="200" height="200">
-                        @endif
+                        <div class="mb-2">
+                            <h2 class="text-md">When would you like the handymen to come ?</h2>
+                            <div>
+                                <div class="mb-4">
+                                    <label for="date" class="block mb-1">Select a date:</label>
+                                    <input type="text" wire:model.lazy="serviceDate" id="datepicker" wire:ignore class="w-full px-4 py-2 border rounded">
+                                </div>
+
+                                
+                                <div class="mb-4" wire:poll.visible.500ms="checkDateAvailability">
+
+                                    @if($messageDay)
+                                    <p class="font-bold text-red-700">This day is not available.</p>
+                                    @else
+                                    <p class="font-bold text-green-700">This day is available.</p>
+                                    @endif 
+                                </div>
+
+                                <div class="mb-4">
+                                    <label for="time" class="block mb-1">Select a time:</label>
+                                    <select wire:model="serviceTime" id="time" wire:change="checkTimeAvailability" class="w-full px-4 py-2 border rounded">
+                                        <option  value="10:00:00">10:00 AM</option>
+                                        <option  value="11:00:00">11:00 AM</option>
+                                        <option  value="12:00:00">12:00 PM</option>
+                                        <option  value="13:00:00">1:00 PM</option>
+                                        <option  value="14:00:00">2:00 PM</option>
+                                        <option  value="15:00:00">3:00 PM</option>
+                                        <option  value="16:00:00">4:00 PM</option>
+                                        <option  value="17:00:00">5:00 PM</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-4">
+
+                                    @if($messageTime)
+                                    <p class="font-bold text-red-700">This time is not available.</p>
+                                    @else
+                                    <p class="font-bold text-green-700">This time is available.</p>
+                                    @endif 
+                                </div>
+                                 
+                            </div>
+                        </div>
+
+                        <div class="mb-2">
+                            <h2 class="text-md">Could you please provide us photos for references</h2>
+                            <input type="file" wire:model="image" class="mt-2">
+                            
+                            <h2 class="mt-2 text-lg font-bold ">Preview</h2>
+                            @if ($image)
+                                <img src="{{ $image->temporaryUrl() }}" alt="preview" class="mt-4" width="200" height="200">
+                            @endif
+                        </div>
+                        
+                        <button class="px-4 py-2 text-white rounded-md bg-slate-700 hover:bg-slate-400" wire:click="newInsuranceRequest">Submit</button>
                     </div>
                     
-                    <button class="px-4 py-2 text-white rounded-md bg-slate-700 hover:bg-slate-400" wire:click="newInsuranceRequest">Submit</button>
-                </div>
-                
-            </form>
-        </div>
+                </form>
+            </div>
+        </section>
+    
     @else
         
        
@@ -110,4 +157,44 @@
     @endif
 
     @livewireScripts
+
+    <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.8.0/pikaday.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          var picker = new Pikaday({
+            field: document.getElementById('datepicker'),
+            format: 'DD/M/YYYY',
+            toString(date, format) {
+              // Format the date with month as a string
+              const day = date.getDate();
+              const month = moment(date).format('MMMM'); // Full month name
+              const year = date.getFullYear();
+              return `${day} ${month} ${year}`;
+            },
+            parse(dateString, format) {
+              // Parse the formatted string using moment.js
+              return moment(dateString, 'D MMMM YYYY').toDate();
+            }
+          });
+        });
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+        const scheduleTimeSlotComponent = Livewire.find('schedule-time-slot');
+
+        scheduleTimeSlotComponent.$on('timeSlotChecked', (data) => {
+            // Update your UI here based on the data
+            console.log(`Day Message: ${data.dayMessage}, Time Message: ${data.timeMessage}`);
+            });
+        });
+
+        // Check the time slot availability every minute
+        setInterval(() => {
+        scheduleTimeSlotComponent.call('checkTimeSlotAvailability');
+        }, 60 * 1000);
+
+    </script>
 </div>

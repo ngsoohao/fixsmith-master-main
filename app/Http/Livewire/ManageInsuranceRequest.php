@@ -5,9 +5,12 @@ namespace App\Http\Livewire;
 use App\Models\Insurance;
 use App\Models\InsuranceRequest;
 use App\Models\InsuranceRequestImage;
+use App\Models\Order;
 use Illuminate\Support\Facades\File;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Log;
+
 
 class ManageInsuranceRequest extends Component
 {
@@ -22,6 +25,14 @@ class ManageInsuranceRequest extends Component
     public $submittedClaim;
     public $claimExistence;
     public $currentState;
+    public $insuranceRequest;
+    public $insuranceServiceProvider;
+    public $serviceDate;
+    public $serviceTime;
+    public bool $messageDay;
+    public bool $messageTime;
+    public $allOrderDate=[];
+    public $allOrderTime=[];
 
     public function mount($insuranceID){
         $this->insuranceID=$insuranceID;        
@@ -30,10 +41,12 @@ class ManageInsuranceRequest extends Component
 
         //check the current status of this insurance request 
         $insuranceRequest=InsuranceRequest::where('insuranceID',$insuranceID)->first();
-        if($insuranceRequest){
-            $this->currentState=$insuranceRequest->status;
+        if ($insuranceRequest && $insuranceRequest->status !== null) {
+            $this->currentState = $insuranceRequest->status;
         }
-        
+
+        $this->insuranceServiceProvider= Insurance::where('insuranceID',$insuranceID)->first();
+
         
     }
 
@@ -45,6 +58,8 @@ class ManageInsuranceRequest extends Component
         $insuranceReq->description=$this->description;
         $insuranceReq->insuranceID=$this->insuranceID;
         $insuranceReq->status='requested';
+        $insuranceReq->serviceDate=\Carbon\Carbon::parse($this->serviceDate)->format('Y-m-d');
+        $insuranceReq->serviceTime=\Carbon\Carbon::parse($this->serviceTime)->format('H:i');
         $insuranceReq->save();
         //upload image
         $insuranceReqImg=new InsuranceRequestImage;
@@ -55,6 +70,42 @@ class ManageInsuranceRequest extends Component
         return redirect('manage-insurance-request');
 
         
+    }
+
+    public function checkDateAvailability(){
+        $allServiceProviderOrders=Order::where('serviceProviderID',$this->insuranceServiceProvider->serviceProviderID)->get();
+        $this->messageDay = false;
+
+        foreach ($allServiceProviderOrders as $allServiceProviderOrder) {
+            $this->serviceDate=\Carbon\Carbon::parse($this->serviceDate)->format('Y-m-d');
+
+            $this->allOrderDate = $allServiceProviderOrder->orderDate;
+
+            if ($this->serviceDate == $this->allOrderDate) {
+                $this->messageDay = true;
+                break;
+
+            }
+        }
+    }
+
+    public function checkTimeAvailability(){
+        $allServiceProviderOrders=Order::where('serviceProviderID',$this->insuranceServiceProvider->serviceProviderID)->get();
+        $this->messageTime = false;
+
+        foreach ($allServiceProviderOrders as $allServiceProviderOrder) {
+            //$this->serviceTime=\Carbon\Carbon::parse($this->serviceTime)->format('H:i');
+
+            $this->allOrderTime = $allServiceProviderOrder->orderTime;
+            // dd($this->serviceTime);
+            // dd($this->allOrderTime);
+
+            if ($this->serviceTime == $this->allOrderTime) {
+                $this->messageTime = true;
+                break;
+
+            }
+        }
     }
 
     public function checkInsuranceRequestExistence($insuranceID){
@@ -92,6 +143,7 @@ class ManageInsuranceRequest extends Component
 
     public function render()
     {
+        
         return view('livewire.manage-insurance-request',[
             'imagePath'=>$this->imagePath,
             'submittedClaim'=>$this->submittedClaim,

@@ -12,13 +12,22 @@ class UserManageInsurance extends Component
     public $insurances;
     public $orderDetails;
     public $currentState;
+    public $insuranceHistories;
 
     public function mount(){
-        $this->insurances = Insurance::where('id', auth()->user()->id)->get();
+        $this->insurances = Insurance::where('id', auth()->user()->id)
+        ->whereIn('status',['active','pending'])
+        ->get();
+
         foreach ($this->insurances as $insurance) {
             $insuranceRequest = InsuranceRequest::where('insuranceID', $insurance->insuranceID)->first();
             $this->currentState[$insurance->insuranceID] = $insuranceRequest ? $insuranceRequest->status :'';
         }
+
+        $this->insuranceHistories = Insurance::where('id', auth()->user()->id)
+        ->whereIn('status',['claimed','expired'])
+        ->get();
+
     }
 
     public function render()

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->enum('status',['requested','accepted','declined','pending reschedule','completed']);
             $table->text('declineReason')->nullable();
             $table->unsignedBigInteger('insuranceID');
-            $table->string('servicedProof')->nullable();
+            $table->string('serviceProof')->nullable();
             $table->timestamps();
 
             $table->foreign('insuranceID')->references('insuranceID')->on('insurances')->cascadeOnDelete();

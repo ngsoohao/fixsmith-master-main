@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('insurances', function (Blueprint $table) {
             $table->id('insuranceID');
-            $table->enum('status', ['pending','active', 'expired','requested','claimed','declined']);
+            $table->enum('status', ['pending','active', 'expired','claimed']);
             $table->unsignedBigInteger('orderID');
             $table->float('paidAmount');
             $table->date('startDate');
