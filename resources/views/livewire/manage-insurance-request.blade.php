@@ -1,10 +1,12 @@
 <div class="py-2 ">
     @livewireStyles
+
     @if ($claimExistence==false) 
         <section>
             <div class="rounded-lg bg-zinc-200">
 
-                <form class="max-w-2xl mx-auto">
+                <div class="max-w-2xl mx-auto">
+
                     <h1 class="text-xl font-bold ">Please Tell Us What Happened</h1>
 
                     <div class="mt-2">
@@ -12,11 +14,13 @@
                         <div class="mb-2">
                             <h2 class="text-md">Title</h2>
                             <input type="text" wire:model='title' class="w-full rounded-md ">
+            
                         </div>
 
                         <div class="mb-2">
                             <h2 class="text-md">Please describe the problem you after encountered.</h2>
                             <textarea wire:model='description' class="w-full rounded-md"></textarea>
+
                         </div>
                         
                         <div class="mb-2">
@@ -28,14 +32,6 @@
                                 </div>
 
                                 
-                                <div class="mb-4" wire:poll.visible.500ms="checkDateAvailability">
-
-                                    @if($messageDay)
-                                    <p class="font-bold text-red-700">This day is not available.</p>
-                                    @else
-                                    <p class="font-bold text-green-700">This day is available.</p>
-                                    @endif 
-                                </div>
 
                                 <div class="mb-4">
                                     <label for="time" class="block mb-1">Select a time:</label>
@@ -53,7 +49,7 @@
 
                                 <div class="mb-4">
 
-                                    @if($messageTime)
+                                    @if($message)
                                     <p class="font-bold text-red-700">This time is not available.</p>
                                     @else
                                     <p class="font-bold text-green-700">This time is available.</p>
@@ -73,11 +69,15 @@
                             @endif
                         </div>
                         
+                        @include('utils.alert-error')
+
                         <button class="px-4 py-2 text-white rounded-md bg-slate-700 hover:bg-slate-400" wire:click="newInsuranceRequest">Submit</button>
+
                     </div>
-                    
-                </form>
+                </div>
             </div>
+            
+
         </section>
     
     @else

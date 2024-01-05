@@ -9,7 +9,6 @@ use App\Models\Order;
 use Illuminate\Support\Facades\File;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\Log;
 
 
 class ManageInsuranceRequest extends Component
@@ -29,10 +28,11 @@ class ManageInsuranceRequest extends Component
     public $insuranceServiceProvider;
     public $serviceDate;
     public $serviceTime;
-    public bool $messageDay;
-    public bool $messageTime;
+    public bool $message;
     public $allOrderDate=[];
     public $allOrderTime=[];
+
+   
 
     public function mount($insuranceID){
         $this->insuranceID=$insuranceID;        
@@ -51,6 +51,12 @@ class ManageInsuranceRequest extends Component
     }
 
     public function newInsuranceRequest(){
+
+        $this->validate([
+            'title' => 'required | max:100',
+            'description' => 'required | max:3000',
+            'serviceTime' => 'required',
+        ]);
 
         //create new insurance request   
         $insuranceReq= new InsuranceRequest;
@@ -72,38 +78,27 @@ class ManageInsuranceRequest extends Component
         
     }
 
-    public function checkDateAvailability(){
+
+    public function checkTimeAvailability(){
         $allServiceProviderOrders=Order::where('serviceProviderID',$this->insuranceServiceProvider->serviceProviderID)->get();
-        $this->messageDay = false;
+        $this->message = false;
+
 
         foreach ($allServiceProviderOrders as $allServiceProviderOrder) {
             $this->serviceDate=\Carbon\Carbon::parse($this->serviceDate)->format('Y-m-d');
 
             $this->allOrderDate = $allServiceProviderOrder->orderDate;
-
-            if ($this->serviceDate == $this->allOrderDate) {
-                $this->messageDay = true;
-                break;
-
-            }
-        }
-    }
-
-    public function checkTimeAvailability(){
-        $allServiceProviderOrders=Order::where('serviceProviderID',$this->insuranceServiceProvider->serviceProviderID)->get();
-        $this->messageTime = false;
-
-        foreach ($allServiceProviderOrders as $allServiceProviderOrder) {
-            //$this->serviceTime=\Carbon\Carbon::parse($this->serviceTime)->format('H:i');
-
             $this->allOrderTime = $allServiceProviderOrder->orderTime;
             // dd($this->serviceTime);
             // dd($this->allOrderTime);
 
-            if ($this->serviceTime == $this->allOrderTime) {
-                $this->messageTime = true;
+            if ($this->serviceTime == $this->allOrderTime && $this->serviceDate == $this->allOrderDate) {
+                $this->message == true;
                 break;
 
+            }
+            else{
+                $this->message==false;
             }
         }
     }

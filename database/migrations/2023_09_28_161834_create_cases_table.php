@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('cases', function (Blueprint $table) {
             $table->id('caseID');
+            $table->enum('category',['order','payment','insurance','handymen']);
             $table->string('title');
             $table->string('description');
             $table->string('feedback');

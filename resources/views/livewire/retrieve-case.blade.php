@@ -4,6 +4,7 @@
     <table class="min-w-full">
         <thead>
             <tr>
+                <th class="p-4 m-2 text-white border border-gray-300 bg-slate-600">Category</th>
                 <th class="p-4 m-2 text-white border border-gray-300 bg-slate-600">Case Name</th>
                 <th class="p-4 m-2 text-white border border-gray-300 bg-slate-600">Case Number</th>
                 <th class="p-4 m-2 text-white border border-gray-300 bg-slate-600">Feedback</th>
@@ -15,6 +16,7 @@
         <tbody>
             @foreach ($cases as $case)
                 <tr class="border border-slate-600 ">
+                    <td class="border border-slate-600">{{ $case->category }}</td>
                     <td class="max-w-xs break-words">{{ $case->title }}</td>
                     <td class="border border-slate-600" >{{ $case->caseID }}</td>
                     <td class="border border-slate-600" >{{ $case->feedback }}</td>
