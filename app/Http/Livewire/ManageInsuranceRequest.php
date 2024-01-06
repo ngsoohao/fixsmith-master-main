@@ -80,7 +80,9 @@ class ManageInsuranceRequest extends Component
 
 
     public function checkTimeAvailability(){
-        $allServiceProviderOrders=Order::where('serviceProviderID',$this->insuranceServiceProvider->serviceProviderID)->get();
+        $allServiceProviderOrders=Order::where('serviceProviderID',$this->insuranceServiceProvider->serviceProviderID)
+        ->whereIn('status',['quoted','paid'])
+        ->get();
         $this->message = false;
 
 
@@ -93,12 +95,12 @@ class ManageInsuranceRequest extends Component
             // dd($this->allOrderTime);
 
             if ($this->serviceTime == $this->allOrderTime && $this->serviceDate == $this->allOrderDate) {
-                $this->message == true;
+                $this->message = true;
                 break;
 
             }
             else{
-                $this->message==false;
+                $this->message = false;
             }
         }
     }
