@@ -25,6 +25,8 @@ class ManageServiceType extends Component
         $serviceType= new ServiceType();
         $serviceType->serviceTypeName=$this->serviceTypeName;
         $serviceType->save();
+        session()->flash('success','a new service type has been added');
+        return redirect('manage-service-type');
     }
     
     public function updateServiceType()

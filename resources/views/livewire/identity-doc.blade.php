@@ -1,16 +1,16 @@
-<div class="flex h-screen">
+<div class="h-screen sm:block lg:flex">
     @livewireStyles
 
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <div class="mr-5 border-r-2 w-1/7 border-slate-500">
+    <div class="lg:mr-5 lg:border-r-2 w-1/7 border-slate-500">
         @include("nav.side-nav")        
     </div>
     
-    <div class="w-6/7">
+    <div class="flex-grow w-6/7">
 
         @if($existence==false)
-            <div class="flex flex-row">
+            <div class="w-full mx-auto mt-5 text-center bg-zinc-200">
                 <div class="">
                     @if (!$showUploadSection)
                         {{-- Add Services Section --}}
@@ -18,7 +18,8 @@
                         <h2 class="font-bold">Please choose the services that you are providing</h2>
                         
                         <input class="w-3/5" wire:model="search" type="text" placeholder="Search service types..." list="serviceTypes">
-                        <datalist id="serviceTypes">
+                        
+                        <datalist class="bg-slate-500" id="serviceTypes">
                             @foreach ($serviceTypes as $serviceType)
                                 <option value="{{ $serviceType->serviceTypeName }}">
                             @endforeach
