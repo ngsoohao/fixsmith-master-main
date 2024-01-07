@@ -39,7 +39,8 @@ class CheckOut extends Component
                 $this->addInsurance($this->orderID);
                 $this->insurancePrice=($this->order->price)*0.1;
             }
-        $totalAmount=(($this->order->price)+$this->insurancePrice)*100;
+            
+            $totalAmount=(($this->order->price)+$this->insurancePrice)*100;
         }
     
         $checkout_session = $stripe->checkout->sessions->create([
@@ -66,10 +67,13 @@ class CheckOut extends Component
         $this->quotedOrder->save();
         session()->flash('success','Payment Successful');
 
-        $insurance= Insurance::where('orderID',$this->order->orderID)->first();
-        $insurance->paidAmount=$this->insurancePrice;
-        $insurance->status="active";
-        $insurance->save();
+        if($this->insuranceOption==true){
+            $insurance= Insurance::where('orderID',$this->order->orderID)->first();
+            $insurance->paidAmount=$this->insurancePrice;
+            $insurance->status="active";
+            $insurance->save();
+        }
+        
         return redirect()->to($checkout_session->url);    
     }
     

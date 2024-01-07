@@ -8,7 +8,7 @@ class UserDashboard extends Component
 {
     public function mount(){
         if(auth()->user()->role =='handymen'){
-            return redirect('handymen-manage-booking');
+            return redirect('manage-payouts');
         }
         else if(auth()->user()->role =='user'){
             return redirect('user-manage-booking');

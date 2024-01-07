@@ -18,6 +18,7 @@ use App\Http\Livewire\HandymenManageInsurance;
 use App\Http\Livewire\ManageInsuranceRequest;
 use App\Http\Livewire\ManageFavourites;
 use App\Http\Livewire\ManageFavouriteContents;
+use App\Http\Livewire\ManagePayouts;
 use App\Http\Livewire\ManageReview;
 use App\Http\Livewire\ManageServiceProfile;
 use App\Http\Livewire\ReviewHistory;
@@ -59,6 +60,7 @@ Route::group(['middleware' => \App\Http\Middleware\CheckRole::class . ':handymen
     Route::get('/handymen-manage-booking',HandymenManageBooking::class)->name('handymen-manage-booking');
     Route::get('/manage-service-profile',ManageServiceProfile::class)->name('manage-service-profile');
     Route::get('/handymen-manage-insurance',HandymenManageInsurance::class)->name('handymen-manage-insurance');
+    Route::get('manage-payouts',ManagePayouts::class)->name('manage-payouts');
 
 
 

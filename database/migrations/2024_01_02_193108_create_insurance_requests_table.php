@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('description');
             $table->date('serviceDate')->nullable(); 
             $table->time('serviceTime')->nullable(); 
-            $table->enum('status',['requested','accepted','declined','pending reschedule','completed']);
+            $table->enum('status',['requested','accepted','declined','completed']);
             $table->text('declineReason')->nullable();
             $table->unsignedBigInteger('insuranceID');
             $table->string('serviceProof')->nullable();

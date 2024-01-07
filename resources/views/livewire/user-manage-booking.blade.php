@@ -62,8 +62,8 @@
                                     <a class="px-4 py-2 text-white rounded-md bg-slate-600 hover:bg-slate-400 text-md" href="{{route('checkout',[$order->orderID])}}">Checkout</a>
 
                                     @elseif($order->status =='delivered')
-                                    <a class="px-4 py-2 text-white rounded-md bg-slate-600 hover:bg-slate-400 text-md"wire:click="orderComplete({{$order->orderID}})" href="{{route('manage-review',[$order->orderID])}}">Complete</a>
-
+                                    <button class="px-4 py-2 text-white rounded-md bg-slate-600 hover:bg-slate-400 text-md"wire:click="orderComplete({{$order->orderID}})">Complete</button>
+                                    {{-- href="{{route('manage-review',[$order->orderID])}}" --}}
                                     @endif
                                 </td>
                             </tr>
@@ -120,7 +120,7 @@
                                     @elseif($order->status =='quoted')
                                     <a class="px-4 py-2 text-white rounded-md bg-slate-600 hover:bg-slate-400 text-md" href="{{route('checkout',[$order->orderID])}}">Checkout</a>
 
-                                    @elseif($order->status=='completed' && $existence==false)
+                                    @elseif($order->status=='completed')
                                     <a class="px-4 py-2 text-white rounded-md bg-slate-600 hover:bg-slate-400 text-md" href="{{route('manage-review',[$order->orderID])}}">Leave a review</a>
                                     @endif
                                 </td>

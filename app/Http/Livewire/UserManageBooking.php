@@ -5,28 +5,41 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Models\Order;
 use App\Models\RateAndReview;
+use App\Models\StripeConnectAccounts;
 
 
 class UserManageBooking extends Component
 {
-    public bool $existence;
+    public $orders;
+    public $orderHistory;
 
-    public function checkReviewExist(){
+    public function mount(){
+        $this->orders = Order::where('id', auth()->id())
+        ->whereIn('status', ['pending', 'paid', 'quoted','delivered'])
+        ->with(['location', 'serviceProvider', 'user'])
+        ->get();
+
+        $this->orderHistory = Order::where('id', auth()->id())
+            ->whereIn('status', ['canceled','completed'])
+            ->with(['location', 'serviceProvider', 'user'])
+            ->get();
+    }
+
+    // public function checkReviewExist(){
         
 
-        // Assuming 'completed' is the status indicating a completed order
-        $completedOrders = Order::where('status', 'completed')->get();
+    //     $completedOrders = Order::where('status', 'completed')->get();
+    //     $this->existence = false;
 
-        foreach ($completedOrders as $order) {
-            if ($order->review) {
-                // Review exists for this completed order
-                $this->existence=true;
-            }
-            else{
-                $this->existence=false;
-            }
-        }
-    }
+    //     foreach ($completedOrders as $order) {
+    //         $existingReview = RateAndReview::where('orderID', $order->orderID)->first();
+
+    //         if ($order && $existingReview) {
+    //         $this->existence = true;
+            
+    //         }
+    //     }
+    // }
 
     public function cancelOrder($orderID){
         $bookedOrder=Order::find($orderID);
@@ -38,26 +51,43 @@ class UserManageBooking extends Component
     }
 
     public function orderComplete($orderID){
+        $orderForPayouts=Order::where('orderID',$orderID)
+        ->with('serviceProvider')
+        ->first();
+
+        $stripe= new \Stripe\StripeClient(env('SECRET_TESTMODE_APIKEY'));
+        $handymenStripeAccount= StripeConnectAccounts::where('id',$orderForPayouts->serviceProvider->id)->first();
+        $stripe->accounts->update(
+            $handymenStripeAccount->connectedAccountID,
+            ['settings' => ['payouts' => ['schedule' => ['interval' => 'manual']]]]
+        );
+
+        $stripe->transfers->create(
+            [
+              'amount' => ($orderForPayouts->price*100),
+              'currency' => 'myr',
+              'destination' => $handymenStripeAccount->connectedAccountID,
+
+            ]
+        );
+
+        session()->flash('success','payment has been released to handymen');
+
         $deliveredOrder=Order::find($orderID);
 
         if ($deliveredOrder && $deliveredOrder->status == 'delivered') {
-            $deliveredOrder->status = 'completed';
-            $deliveredOrder->save();
+        $deliveredOrder->status = 'completed';
+        $deliveredOrder->save();
         }
-    }
-    public function render()
-    {
-        $this->checkReviewExist();
-        $orders = Order::where('id', auth()->id())
-            ->whereIn('status', ['pending', 'paid', 'quoted','delivered'])
-            ->with(['location', 'serviceProvider', 'user'])
-            ->get();
 
-        $orderHistory = Order::where('id', auth()->id())
-            ->whereIn('status', ['canceled','completed'])
-            ->with(['location', 'serviceProvider', 'user'])
-            ->get();
-        return view('livewire.user-manage-booking', ['orders' => $orders],['orderHistory'=>$orderHistory]);
+        return redirect('user-manage-booking');
+    }
+
+    public function render()
+    {             
+        return view('livewire.user-manage-booking', [
+            'orders' => $this->orders,
+            'orderHistory'=>$this->orderHistory]);
 
     }
 }
