@@ -38,7 +38,7 @@
                                 @if ($addedServiceDetails)
                                     @foreach ($addedServiceDetails as $addedServiceDetail)
                                         <button class="relative p-2 mb-2 text-white rounded-md bg-slate-700 hover:bg-slate-400" wire:click="deleteAddedService({{ $addedServiceDetail->serviceProviderID }})">
-                                            {{ $addedServiceDetail->serviceTypeName }}
+                                            {{ $addedServiceDetail->serviceType->serviceTypeName}}
                                             {{-- {{ $addedServiceDetail->serviceProviderID }} --}}
                                         </button>
                                     @endforeach

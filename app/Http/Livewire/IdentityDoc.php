@@ -27,17 +27,19 @@ class IdentityDoc extends Component
     public $imagePath;
     public bool $existence;
     //serviceProvider table var\
-    public $serviceProvider;
     public $serviceType;
     public $serviceTypeID;
     public $search ='';
     public $userID;
     public $showUploadSection = false;
+    public $addedServiceProvider;
 
 
 
     public function mount(){
-        
+        $this->addedServiceProvider=ServiceProvider::with('serviceType')
+        ->where('id',auth()->user()->id)
+        ->get();
     }
     public function addNewApplication()
     {
@@ -130,17 +132,12 @@ class IdentityDoc extends Component
     
     public function render()
     {   $this->checkDocumentExistence();
-        
+        $userId = auth()->user()->id;
+
         return view('livewire.identity-doc',[
             'serviceTypes' => ServiceType::where('serviceTypeName','like','%'.$this->search.'%')->paginate(10),
-            'addedServiceDetails' => ServiceType::whereIn('serviceType.serviceTypeID', function ($query) {
-                $query->select('service_providers.serviceTypeID')
-                    ->from('service_providers')
-                    ->where('service_providers.id', auth()->user()->id);
-            })
-            ->join('service_providers', 'serviceType.serviceTypeID', '=', 'service_providers.serviceTypeID')
-            ->select('serviceType.*', 'service_providers.serviceProviderID as serviceProviderID')
-            ->get(),
+
+            'addedServiceDetails' => $this->addedServiceProvider,
         ]);
     }
 }

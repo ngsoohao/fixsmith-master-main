@@ -56,6 +56,7 @@ class ManageInsuranceRequest extends Component
             'title' => 'required | max:100',
             'description' => 'required | max:3000',
             'serviceTime' => 'required',
+            'image' => 'required',
         ]);
 
         //create new insurance request   

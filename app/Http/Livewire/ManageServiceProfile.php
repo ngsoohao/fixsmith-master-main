@@ -48,7 +48,7 @@ class ManageServiceProfile extends Component
 
     public function render()
     {
-        $addedServiceProfiles = ServiceProfile::with('ServiceProvider')
+        $addedServiceProfiles = ServiceProfile::with('serviceProvider')
             ->where('id',auth()->user()->id)
             ->get();
 

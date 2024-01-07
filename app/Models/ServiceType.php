@@ -10,4 +10,9 @@ class ServiceType extends Model
     use HasFactory;
     protected $table = 'serviceType';
     protected $primaryKey = 'serviceTypeID';
+
+    public function serviceProvider()
+    {
+        return $this->hasMany(ServiceProvider::class, 'serviceTypeID');
+    }
 }

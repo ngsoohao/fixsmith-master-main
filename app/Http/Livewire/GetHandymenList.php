@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\FavouriteListContent;
 use App\Models\FavouriteList;
+use App\Models\ServiceProfile;
 use Livewire\Component;
 use App\Models\ServiceProvider;
 use App\Models\ServiceType;
@@ -21,16 +22,20 @@ class GetHandymenList extends Component
     //compact var
     public $favLists;
     public $handymen;
+    public $serviceProfiles=[];
 
 
 
     public function mount($serviceTypeID)
     {
         $this->serviceTypeID = $serviceTypeID;
-        $this->favLists=FavouriteList::where('id',auth()->user()->id)->get();
-        $this->handymen=ServiceProvider::with('user','reviews','serviceProfile')->where('serviceTypeID', $this->serviceTypeID)->get();
+        $this->favLists = FavouriteList::where('id', auth()->user()->id)->get();
+        $this->handymen = ServiceProvider::with('user', 'reviews', 'serviceProfile')->where('serviceTypeID', $this->serviceTypeID)->get();
 
-        
+        foreach ($this->handymen as $handyman) {
+            // Store the serviceProfile in the array using serviceProviderID as the key
+            $this->serviceProfiles[$handyman->serviceProviderID] = ServiceProfile::where('serviceProviderID', $handyman->serviceProviderID)->first();
+        }
     }
 
     public function addFavourites($favouriteListID,$serviceProviderID){
@@ -56,6 +61,7 @@ class GetHandymenList extends Component
             'serviceTypes' => ServiceType::where('serviceTypeName', 'like', '%' . $this->search . '%')->paginate(14),
             'favLists'=>$this->favLists,
             'handymen'=>$this->handymen,
+            'serviceProfile'=>$this->serviceProfiles,
         ]);
     }
 }
