@@ -23,11 +23,11 @@
                     </div>
                     <label>My dashboard</label>
                     <div>
-                        <button class="w-2/5 p-2 text-white rounded-md shadow-lg hover:text-slate-200 bg-slate-700 hover:bg-slate-400">
-                            <a href="https://dashboard.stripe.com/test/balance/overview">
+                        <a href="https://dashboard.stripe.com/test/balance/overview" target="_blank" rel="noopener noreferrer">
+                            <button class="w-2/5 p-2 text-white rounded-md shadow-lg hover:text-slate-200 bg-slate-700 hover:bg-slate-400">
                                 Go to My Stripe Dashboard
-                            </a>
-                        </button>
+                            </button>
+                        </a>
                     </div>
                 </section>
                 @endif

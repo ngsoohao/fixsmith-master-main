@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Livewire\AdminSideAllOrder;
 use App\Http\Livewire\ManageCase;
 use App\Http\Livewire\ManageLocation;
 use Illuminate\Support\Facades\Route;
@@ -49,7 +50,9 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])-
 //Routes for admin
 Route::group(['middleware' => \App\Http\Middleware\CheckRole::class . ':admin'], function () {
     Route::get('/reply-case',ReplyCase::class)->name('reply-case'); 
-   
+    Route::get('/all-orders',AdminSideAllOrder::class)->name('all-orders'); 
+
+    
 
 
 });

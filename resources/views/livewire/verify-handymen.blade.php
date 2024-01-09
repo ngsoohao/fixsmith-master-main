@@ -1,4 +1,4 @@
-<div class="flex h-screen">
+<div class="h-screen sm:block lg:flex">
     @livewireStyles
 
     <div class="mr-5 border-r-2 w-1/7 border-slate-400">

@@ -3,7 +3,6 @@
 namespace App\Http\Livewire;
 
 use App\Models\BankAccount;
-use Illuminate\Auth\Events\Login;
 use Livewire\Component;
 
 class ManageBankAccount extends Component

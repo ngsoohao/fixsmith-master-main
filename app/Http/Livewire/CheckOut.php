@@ -61,12 +61,6 @@ class CheckOut extends Component
 
         ]);
     
-        $this->quotedOrder = $this->order;
-        $this->quotedOrder->status = 'paid';
-        $this->quotedOrder->sessionID=$checkout_session->id;
-        $this->quotedOrder->save();
-        session()->flash('success','Payment Successful');
-
         if($this->insuranceOption==true){
             $insurance= Insurance::where('orderID',$this->order->orderID)->first();
             $insurance->paidAmount=$this->insurancePrice;
@@ -74,7 +68,12 @@ class CheckOut extends Component
             $insurance->save();
         }
         
-        return redirect()->to($checkout_session->url);    
+        return redirect()->to($checkout_session->url);   
+        $this->quotedOrder = $this->order;
+        $this->quotedOrder->status = 'paid';
+        $this->quotedOrder->sessionID=$checkout_session->id;
+        $this->quotedOrder->save();
+        session()->flash('success','Payment Successful'); 
     }
     
     public function addInsurance($orderID){

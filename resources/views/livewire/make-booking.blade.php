@@ -5,7 +5,7 @@
         
         <form wire:submit.prevent="newOrder" class="max-w-md mx-auto">
             <h1 class="mb-5 text-xl font-bold">Please insert your Details</h1>
-            <>
+        
                 <label for="location">Choose a location:</label>
                 <select wire:model="selectedLocationID" id="location" class="w-full px-4 py-2 border rounded">
                     <option value="">Select an address</option>

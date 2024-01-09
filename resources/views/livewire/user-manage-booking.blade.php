@@ -1,4 +1,6 @@
 <div>
+    @include('utils.sessionFlash')
+
     <div class="min-h-screen md:flex sm:block">
 
         <div class="mr-5 border-r-2 w-1/7 border-slate-500">
@@ -7,7 +9,6 @@
 
         <div class="flex-grow overflow-y-auto w-6/7">
 
-            @include('utils.sessionFlash')
            
 
             <div class="overflow-x-auto">

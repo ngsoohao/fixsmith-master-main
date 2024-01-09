@@ -10,7 +10,7 @@
             <h1 class="text-xl font-bold">Manage Service Type</h1>
 
             
-            <div x-data="{open:false}">
+            <div x-data="{open:false}" x-cloak>
                 <button @click="open = true" class="absolute p-2 text-white rounded-md right-20 bg-slate-700 hover:bg-slate-400">Add Service Type</button>
                 
                     <div x-show="open" @click.outside="open = false" class="fixed top-0 bottom-0 left-0 right-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-75">
@@ -42,7 +42,7 @@
                                         <button class="absolute p-2 ml-2 text-white rounded-md right-10 bg-slate-800 hover:bg-slate-500" wire:click="updateServiceType">Save</button>
                                     @else
                                         <div class="flex items-center ml-auto">
-                                            <span class="absolute font-bold left-5">{{ $serviceTypes->serviceTypeName }}</span>
+                                            <span class="absolute left-5">{{ $serviceTypes->serviceTypeName }}</span>
                                             <button class="p-2 ml-2 text-white rounded-md bg-slate-700 hover:bg-slate-500" wire:click="enterEditMode({{ $serviceTypes->serviceTypeID }})">Manage</button>
                                             <button class="p-2 ml-2 text-white bg-red-600 rounded-md hover:bg-red-500" wire:click="deleteServiceType({{ $serviceTypes->serviceTypeID }})">Delete</button>
                                         </div>

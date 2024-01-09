@@ -62,8 +62,9 @@
                                         4-when handymen complete the order ->completed
                                          --}}
                                     @if ($order->status =='pending')
-                                        <button class="px-4 py-2 text-white rounded-md bg-slate-700 text-md" wire:click='acceptAndQuote({{$order->orderID}})'>Accept and Quote</button>
-                                         
+                                        <button class="px-4 py-2 mb-2 text-white rounded-md bg-slate-700 text-md hover:bg-slate-400" wire:click='acceptAndQuote({{$order->orderID}})'>Quote And Accept</button>
+                                        <button class="px-4 py-2 mb-2 text-white bg-red-700 rounded-md hover:bg-red-400 text-md" wire:click='declineIncomingOrder({{ $order->orderID }})'>Decline</button>
+
                                     @elseif($order->status =='quoted')
                                     <p>Pending Payment</p>
                                     @elseif($order->status =='paid')
@@ -139,7 +140,7 @@
                                          --}}
                                     @if ($order->status =='pending')
                                         <button class="px-4 py-2 text-white rounded-md bg-slate-700 text-md" wire:click='acceptAndQuote({{$order->orderID}})'>Accept and Quote</button>
-                                         
+                                        
                                     @elseif($order->status =='quoted')
                                     <p>Pending Payment</p>
                                     @elseif($order->status =='paid')

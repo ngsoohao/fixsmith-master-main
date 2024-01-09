@@ -26,7 +26,7 @@
             <section class="mt-20 ">
                 <div x-data="{editing=false}">
                     @foreach ($allFavList as $favouriteList)
-                        <div class="flex p-4 mt-5 rounded-md shadow-md bg-slate-300">
+                        <div class="flex p-4 mt-5 rounded-md shadow-lg bg-slate-200">
                             @if ($editMode && $favouriteList->favouriteListID == $currentEditingID)
                                 <input wire:model="editedFavouriteListName" class="flex-grow rounded-md">
                                 <button class="p-2 ml-2 text-white rounded-md bg-slate-700 hover:bg-slate-400" wire:ignore  wire:click="updateFavList({{$favouriteList->favouriteListID}})">Save</button>
