@@ -62,7 +62,7 @@
                             </div>
                             
                             @if ($fileName)
-                                <img src="{{ $fileName->temporaryUrl() }}" alt="preview" class="mt-4" width="300" height="400">
+                                <img src="{{ $fileName->temporaryUrl() }}" alt="preview" class="mx-auto mt-4" width="300" height="400">
                             @endif
                             
                             <div class="block">

@@ -95,7 +95,6 @@ Route::group(['middleware' => \App\Http\Middleware\CheckRole::class . ':handymen
 
 //Routes for user only
 Route::group(['middleware' => \App\Http\Middleware\CheckRole::class . ':user'], function () {
-    Route::get('/upload-identity-doc', IdentityDoc::class)->name('upload-identity-doc');
 
 });
 
@@ -111,6 +110,8 @@ Route::get('/checkout/{orderID}',CheckOut::class)->name('checkout');
 
 Route::get('/verify-handymen', VerifyHandymen::class)->name('verify-handymen');
 Route::get('/manage-service-type',ManageServiceType::class)->name('manage-service-type');
+Route::get('/upload-identity-doc', IdentityDoc::class)->name('upload-identity-doc');
+
 
 
 
