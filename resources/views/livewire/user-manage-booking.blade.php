@@ -3,7 +3,7 @@
 
     <div class="min-h-screen md:flex sm:block">
 
-        <div class="mr-5 border-r-2 w-1/7 border-slate-500">
+        <div class="flex-shrink-0 mr-5 border-r-2 w-1/7 border-slate-500">
             @include("nav.side-nav")        
         </div>
 

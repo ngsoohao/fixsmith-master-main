@@ -1,7 +1,7 @@
 <div>
     <div class="min-h-screen md:flex sm:block">
 
-        <div class="mr-5 border-r-2 w-1/7 border-slate-500">
+        <div class="flex-shrink-0 mr-5 border-r-2 w-1/7 border-slate-500">
             @include("nav.side-nav")        
         </div>
 
@@ -47,16 +47,16 @@
                                 </td>
                                 <td class="max-w-xs p-4 break-words border border-slate-600">{{ $order->serviceDescription }}</td>
                                 <td class="p-4 border border-slate-600">
-                                    @if ($order->quoteMin && $order->quoteMax)
+                                    @if ($order->status == 'pending' )
+                                        <label class="text-sm">Minimum</label><br>
+                                        <input class="" wire:model="quoteMin.{{ $order->orderID }}">
+                                        <p>to</p>
+                                        <label class="text-sm">Maximum</label><br>
+                                        <input class="" wire:model="quoteMax.{{ $order->orderID }}">
+                                    @else
                                         RM{{ $order->quoteMin }}
                                         <p>to</p>
                                         RM{{ $order->quoteMax }}
-                                    @else
-                                    <label class="text-sm">Minimum</label><br>
-                                    <input class="" wire:model="quoteMin.{{ $order->orderID }}">
-                                    <p>to</p>
-                                    <label class="text-sm">Maximum</label><br>
-                                    <input class="" wire:model="quoteMax.{{ $order->orderID }}">
                                     @endif
                                 </td>
                                 <td class="p-4 border border-slate-600">
