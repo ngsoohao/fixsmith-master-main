@@ -27,16 +27,15 @@ class ManagePayouts extends Component
             'type' => 'account_onboarding',
         ]);
 
+        
+        
+        
+
         $stripeConnectAccount = new StripeConnectAccounts;
         $stripeConnectAccount->connectedAccountID=$account->id;
-        $stripeConnectAccount->stripeConnectURL=$link->url;
         $stripeConnectAccount->id=auth()->user()->id;
         $stripeConnectAccount->save();
-        
-        return redirect()->to($link->url);    
-
-        
-       
+       return redirect()->to($link->url);    
 
 
     }
