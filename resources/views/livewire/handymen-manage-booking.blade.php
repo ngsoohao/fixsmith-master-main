@@ -19,7 +19,8 @@
                             <th class="p-4 border border-gray-300">Scheduled Date Time</th>
                             <th class="p-4 border border-gray-300">Location</th>
                             <th class="p-4 border border-gray-300">Description</th>
-                            <th class="p-4 border border-gray-300">Price (RM)</th>
+                            <th class="p-4 border border-gray-300">Price Estimate (RM)</th>
+                            <th class="p-4 border border-gray-300">Final Price (RM)</th>
                             <th class="p-4 border border-gray-300">Status</th>
                             <th class="p-4 border border-gray-300">Action</th>
                         </tr>
@@ -46,27 +47,46 @@
                                 </td>
                                 <td class="max-w-xs p-4 break-words border border-slate-600">{{ $order->serviceDescription }}</td>
                                 <td class="p-4 border border-slate-600">
-                                    @if ($order->price)
-                                        {{ $order->price }}
+                                    @if ($order->quoteMin && $order->quoteMax)
+                                        RM{{ $order->quoteMin }}
+                                        <p>to</p>
+                                        RM{{ $order->quoteMax }}
                                     @else
-                                    <label class="text-sm">Quote a price</label><br>
-                                    <input class="w-2/3" wire:model="price.{{ $order->orderID }}">
+                                    <label class="text-sm">Minimum</label><br>
+                                    <input class="" wire:model="quoteMin.{{ $order->orderID }}">
+                                    <p>to</p>
+                                    <label class="text-sm">Maximum</label><br>
+                                    <input class="" wire:model="quoteMax.{{ $order->orderID }}">
+                                    @endif
+                                </td>
+                                <td class="p-4 border border-slate-600">
+                                    @if($order->status=="scheduled")
+                                        <p>Please Update Final Price</p>
+                                        <input wire:model='price' class="rounded-md">
+                                    @elseif ($order->status=='pending'|$order->status=="quoted")
+                                        <p>Price Not Updated Yet</p>
+                                    @else
+                                        @if ($order->price)
+                                            RM{{ $order->price }}
+                                        @endif
                                     @endif
                                 </td>
                                 <td class="p-4 border border-slate-600">{{ $order->status }}</td>
                                 <td class="p-4 border border-slate-600">
-                                    {{-- Status list and flow
-                                        1-when order created ->pending
-                                        2-when handymen accepted and quoted -> quoted
-                                        3-when customer paid -> paid
-                                        4-when handymen complete the order ->completed
-                                         --}}
+                    
                                     @if ($order->status =='pending')
                                         <button class="px-4 py-2 mb-2 text-white rounded-md bg-slate-700 text-md hover:bg-slate-400" wire:click='acceptAndQuote({{$order->orderID}})'>Quote And Accept</button>
                                         <button class="px-4 py-2 mb-2 text-white bg-red-700 rounded-md hover:bg-red-400 text-md" wire:click='declineIncomingOrder({{ $order->orderID }})'>Decline</button>
 
                                     @elseif($order->status =='quoted')
+                                    <p>Waiting for customer to accept</p>
+
+                                    @elseif($order->status =='scheduled')
+                                    <button class="px-4 py-2 mb-2 text-white rounded-md bg-slate-700 text-md hover:bg-slate-400" wire:click='updateFinalPrice({{ $order->orderID }})'>Update Final Price</button>
+
+                                    @elseif($order->status =='price updated')
                                     <p>Pending Payment</p>
+
                                     @elseif($order->status =='paid')
                                     <label class="text-sm">Click when job done</label><br>
                                     <button class="px-4 py-2 text-white rounded-md hover:bg-slate-400 bg-slate-700 text-md" wire:click='jobDone({{$order->orderID}})'>Job Done</button>

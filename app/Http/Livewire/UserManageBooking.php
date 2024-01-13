@@ -15,7 +15,7 @@ class UserManageBooking extends Component
 
     public function mount(){
         $this->orders = Order::where('id', auth()->id())
-        ->whereIn('status', ['pending', 'paid', 'quoted','delivered'])
+        ->whereIn('status', ['pending', 'paid', 'quoted','delivered','scheduled','price updated'])
         ->with(['location', 'serviceProvider', 'user'])
         ->get();
 
@@ -48,6 +48,21 @@ class UserManageBooking extends Component
             $bookedOrder->status = 'canceled';
             $bookedOrder->save();
         }
+    }
+
+    public function acceptQuotedRange($orderID){
+        $acceptQuoteRangeOrder=Order::find($orderID);
+        if($acceptQuoteRangeOrder->status == 'quoted'){
+            $acceptQuoteRangeOrder->status = 'scheduled';
+            $acceptQuoteRangeOrder->save();
+            session()->flash('success','you have accepted the quote');
+        }
+        else{
+            session()->flash('alert','fail, unable to proceed');
+        }
+        
+        return redirect('user-manage-booking');
+
     }
 
     public function orderComplete($orderID){

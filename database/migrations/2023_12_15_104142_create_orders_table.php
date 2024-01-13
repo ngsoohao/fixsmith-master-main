@@ -17,7 +17,9 @@ return new class extends Migration
             $table->decimal('price', 10, 2)->nullable(); 
             $table->date('orderDate'); 
             $table->time('orderTime'); 
-            $table->enum('status',['pending','quoted','paid','delivered','completed','cancelled']);
+            $table->decimal('quoteMin',10,2)->nulllable();
+            $table->decimal('quoteMax',10,2)->nulllable();
+            $table->enum('status',['pending','quoted','scheduled','price updated','paid','delivered','completed','cancelled']);
             $table->text('serviceDescription');
             $table->string('sessionID');
             $table->unsignedBigInteger('locationID');
