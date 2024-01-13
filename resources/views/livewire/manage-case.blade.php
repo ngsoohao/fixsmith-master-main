@@ -13,8 +13,9 @@
                     <button @click="open = true" class="absolute p-2 text-white rounded-md right-20 bg-slate-700 hover:bg-slate-400">Submit Case</button>
 
                     <div x-show="open" class="fixed top-0 bottom-0 left-0 right-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
-                        <h1 class="text-lg font-bold">Add A New Case</h1>
                         <div class="w-3/4 p-8 bg-white rounded-md">
+                            <h1 class="text-lg font-bold">Add A New Case</h1>
+
                             <div>
                                 <label>Select a category</label><br>
                                 <select  wire:model="category" class="rounded-md">

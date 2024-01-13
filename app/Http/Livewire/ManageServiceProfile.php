@@ -43,7 +43,10 @@ class ManageServiceProfile extends Component
         return redirect('manage-service-profile');
     }
 
-    public function deleteDescription(){
+    public function deleteDescription($serviceProfileID){
+        ServiceProfile::find($serviceProfileID)->delete();
+        session()->flash('success','The service profile has been deleted');
+        return redirect('manage-service-profile');
     }
 
     public function render()

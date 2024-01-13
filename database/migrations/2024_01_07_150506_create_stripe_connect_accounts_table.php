@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('stripe_connect_accounts', function (Blueprint $table) {
             $table->id('stripeConnectID');
             $table->string('connectedAccountID');
-            $table->string('stripeConnectURL');
             $table->unsignedBigInteger('id');
             $table->timestamps();
 

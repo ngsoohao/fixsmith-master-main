@@ -50,15 +50,20 @@
                 @foreach ($addedServiceProfiles as $addedServiceProfile)
                 <div class="px-4 py-2 mb-10 rounded-md bg-slate-200">
                     <h4 class="ml-5 font-bold text-md">Service Profile for {{$addedServiceProfile->serviceProvider->serviceType->serviceTypeName}}</h4>
-                    <button onclick="toggleForm()" class="absolute px-4 py-2 mt-5 text-white rounded-md bg-slate-600 hover:bg-slate-400 right-20">Edit</button>
+                    <div class="absolute right-10">
+                        <button onclick="toggleForm()" class="px-4 py-2 mt-5 text-white rounded-md bg-slate-600 hover:bg-slate-400 ">Edit</button>
+                        <button class="px-4 py-2 mt-5 text-white bg-red-600 rounded-md hover:bg-red-400 right-10" wire:click='deleteDescription({{ $addedServiceProfile->serviceProfileID }})'>Delete</button>
+                    </div>
+                   
                     <div class="p-4 m-2 rounded-md shadow-xl bg-slate-100">
                         <strong>About Me :</strong><br>
-                        <p class="w-full h-20 disabled">{{$addedServiceProfile->aboutMe}}</p>
+                        <p class="h-20 max-w-5xl my-5 break-all ">{{$addedServiceProfile->aboutMe}}</p>
                         
                     </div>
                     <div class="p-4 m-2 rounded-md shadow-xl bg-slate-100">
                         <strong>How Can I Help :</strong><br>
-                        {{$addedServiceProfile->providedServiceDescription}}
+                        <p class="h-20 max-w-5xl my-5 break-all ">{{$addedServiceProfile->providedServiceDescription}}
+</p>
                     </div>
                 </div>
                  {{-- hidden form to update service profile --}}

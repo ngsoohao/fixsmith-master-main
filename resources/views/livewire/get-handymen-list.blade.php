@@ -56,19 +56,32 @@
                             </div>
                         
                             <p class="p-2 rounded-md bg-slate-200">Has an average ratings of {{$handyman->averageRating}}</p>
-                            <p class="p-2 mt-5 mb-1 text-center text-white rounded-md bg-slate-600">How can I help:</p>
-                            <p>{{ $serviceProfiles[$handyman->serviceProviderID]->aboutMe }}</p>
-                            <p class="p-2 mt-5 mb-1 text-center text-white rounded-md bg-slate-500">Provided Service Description:</p>
-                            <p>{{ $serviceProfiles[$handyman->serviceProviderID]->providedServiceDescription }}</p>                              
-                            <p class="p-2 mt-5 mb-1 text-center text-white rounded-md bg-slate-400">Recent Reviews:</p>
+                            <p class="w-1/2 p-2 mt-5 mb-1 text-center text-white rounded-md bg-slate-700">How can I help:</p>
+                            @if ($serviceProfiles[$handyman->serviceProviderID] !== null)
+                                <p class="break-all lg:max-w-4xl">{{ $serviceProfiles[$handyman->serviceProviderID]->aboutMe }}</p>
+                            @else
+                                <p>This handyman has not added anything yet</p>
+                            @endif
+
+                            <p class="w-1/2 p-2 mt-5 mb-1 text-center text-white rounded-md bg-slate-600">Provided Service Description:</p>
+                            
+                            @if ($serviceProfiles[$handyman->serviceProviderID] !== null) 
+                                <p class="break-all sm:max-w-sm lg:max-w-4xl">{{ $serviceProfiles[$handyman->serviceProviderID]->providedServiceDescription }}</p>   
+                            @else
+                                <p>This handyman has not added anything yet</p>
+                            @endif
+                           
+                            <p class="w-1/2 p-2 mt-5 mb-1 text-center text-white rounded-md bg-slate-500">Recent Reviews:</p>
                             <div class="p-2 rounded-md shadow-md bg-slate-200">
                                 
-                                @foreach ($handyman->reviews->take(3) as $review)
-                                    <p>{{$review->user->name}} on {{$review->created_at->format('d M Y') }}</p>
-                                    <p>"{{ $review->reviewText }}"</p>
-                                    <br>
-                                @endforeach
+                                    @foreach ($handyman->reviews->take(3) as $review)
+                                        <p>{{$review->user->name}} on {{$review->created_at->format('d M Y') }}</p>
+                                        <p>"{{ $review->reviewText }}"</p>
+                                        <br>
+                                    @endforeach
+
                             </div>
+
                         </div>
                     @endif
                 </div>

@@ -74,7 +74,7 @@ class ManageInsuranceRequest extends Component
         $insuranceReqImg->imagePath=$path;
         $insuranceReqImg->insuranceID =$this->insuranceID;
         $insuranceReqImg->save();
-        return redirect('manage-insurance-request');
+        return redirect('user-manage-insurance');
 
         
     }

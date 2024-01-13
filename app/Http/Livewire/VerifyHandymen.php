@@ -3,6 +3,8 @@
 namespace App\Http\Livewire;
 
 use App\Models\IdentityDocument;
+use App\Models\ServiceProvider;
+use App\Models\ServiceType;
 use App\Models\User;
 use Livewire\Component;
 use Illuminate\Support\Facades\File;
@@ -17,6 +19,7 @@ class VerifyHandymen extends Component
     public $status;
     public $role;
     public $identityDocumentID;
+    public $providedServices;
 
     
 
@@ -26,6 +29,15 @@ class VerifyHandymen extends Component
         foreach ($this->document as $key => $value) {
             $this->status[$value->identityDocumentID] = '';
         }
+        
+        $this->providedServices=ServiceProvider::where('id',auth()->user()->id)
+        ->with('serviceType')
+        ->get();
+
+        
+
+        
+
     }
 
     public function deleteDocument($identityDocumentID)
@@ -109,7 +121,9 @@ class VerifyHandymen extends Component
     public function render()
     {
         $this->getImagePath();
-        return view('livewire.verify-handymen');
+        return view('livewire.verify-handymen',[
+            'providedServices'=>$this->providedServices,
+        ]);
     }
     
 }

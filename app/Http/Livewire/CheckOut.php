@@ -35,9 +35,14 @@ class CheckOut extends Component
         }
         else{
 
-            if($this->insuranceOption==true){
+            if($this->insuranceOption == true){
                 $this->addInsurance($this->orderID);
                 $this->insurancePrice=($this->order->price)*0.1;
+                $insurance= Insurance::where('orderID',$this->order->orderID)->first();
+                $insurance->paidAmount=$this->insurancePrice;
+                $insurance->status="active";
+                $insurance->save();
+
             }
             
             $totalAmount=(($this->order->price)+$this->insurancePrice)*100;
@@ -60,20 +65,25 @@ class CheckOut extends Component
             'cancel_url' => route('user-manage-booking'),
 
         ]);
-    
-        if($this->insuranceOption==true){
-            $insurance= Insurance::where('orderID',$this->order->orderID)->first();
-            $insurance->paidAmount=$this->insurancePrice;
-            $insurance->status="active";
-            $insurance->save();
-        }
-        
-        return redirect()->to($checkout_session->url);   
+
         $this->quotedOrder = $this->order;
         $this->quotedOrder->status = 'paid';
         $this->quotedOrder->sessionID=$checkout_session->id;
+
+        if($this->insuranceOption == true){
+            $this->quotedOrder->price=(($this->order->price)+$this->insurancePrice);
+
+        }
+
         $this->quotedOrder->save();
         session()->flash('success','Payment Successful'); 
+
+
+        return redirect()->to($checkout_session->url);   
+
+    
+        
+       
     }
     
     public function addInsurance($orderID){

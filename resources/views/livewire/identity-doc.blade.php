@@ -28,23 +28,24 @@
                         
                         
                         <button class="p-2 text-white rounded-md bg-slate-700 hover:bg-slate-400" wire:click="addServiceProvider">Add</button>
-                        <button class="p-2 text-white rounded-md bg-slate-700 hover:bg-slate-400" wire:click="next">Next</button>
 
                         <br>
                         <div>
-                            <h2 class="font-bold">Added Services</h2>
+                            <h2 class="mt-10 text-xl font-bold">Added Services</h2>
                             <p>Please click on the added service to remove it</p>
                             <div>
                                 @if ($addedServiceDetails)
                                     @foreach ($addedServiceDetails as $addedServiceDetail)
-                                        <button class="relative p-2 mb-2 text-white rounded-md bg-slate-700 hover:bg-slate-400" wire:click="deleteAddedService({{ $addedServiceDetail->serviceProviderID }})">
+                                        <button class="relative p-2 mb-2 text-white rounded-md bg-slate-700 hover:bg-red-400"wire:ignore wire:click="deleteAddedService({{ $addedServiceDetail->serviceProviderID }})">
                                             {{ $addedServiceDetail->serviceType->serviceTypeName}}
-                                            {{-- {{ $addedServiceDetail->serviceProviderID }} --}}
                                         </button>
                                     @endforeach
                                 @endif
+
+                                <button class="absolute px-4 py-2 text-white rounded-md right-10 bg-slate-700 hover:bg-slate-400" wire:click="next">Next</button>
+
                             </div>
-                            
+
                             
                         </div>
                     @else
@@ -53,13 +54,11 @@
                             <h1 class="pt-5 text-2xl font-bold">Tell Us About You</h1><br>
                             <h2 class="font-bold">Please Upload Your Identity Card For Verification</h2>
                 
-                            <div>
                                 @if(session()->has('message'))
                                     <div class="alert alert-success">
                                         {{ session('message') }}
                                     </div>
                                 @endif
-                            </div>
                             
                             @if ($fileName)
                                 <img src="{{ $fileName->temporaryUrl() }}" alt="preview" class="mx-auto mt-4" width="300" height="400">

@@ -30,6 +30,13 @@
                                         <div>
                                             <strong class="">Name:</strong><p> {{ $document['name'] }}</p>
                                             <strong class="">Document Number:</strong><p> {{ $document['documentNumber'] }}</p>
+                                            <strong class="">Provided Services:</strong>
+                                            <div class="mb-5">
+                                                @foreach ($providedServices as $providedService)
+                                                <p>{{ $providedService->serviceType->serviceTypeName }}</p>
+                                                @endforeach
+                                            </div>
+                                            
                                             <img @click.outside="open=false" src="{{ $document['imagePath'] }}" alt="Identity Document" width="400" height="200">
                                             <button class="px-4 py-2 mt-2 text-white rounded-md bg-slate-700 hover:bg-slate-400" wire:click="approveDocument({{ $document['identityDocumentID'] }})">Approve and Change Role</button>
                                             <button class="px-4 py-2 mt-2 ml-2 text-white rounded-md bg-slate-700 hover:bg-slate-400" wire:click="rejectDocument({{ $document['identityDocumentID'] }})">Reject</button>
