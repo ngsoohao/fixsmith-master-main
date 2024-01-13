@@ -38,6 +38,8 @@ class MakeBooking extends Component
         $order->price=$this->price;
         $order->orderDate=\Carbon\Carbon::parse($this->orderDate)->format('Y-m-d');
         $order->orderTime= \Carbon\Carbon::parse($this->orderTime)->format('H:i');
+        $order->quoteMin=0;
+        $order->quoteMax=0;
         $order->status='pending';
         $order->sessionID='';
         $order->serviceDescription=$this->serviceDescription;

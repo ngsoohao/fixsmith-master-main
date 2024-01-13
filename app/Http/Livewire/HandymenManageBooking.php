@@ -9,6 +9,8 @@ class HandymenManageBooking extends Component
 {
     public $orderID;
     public $price=[];
+    public $quoteMin=[];
+    public $quoteMax=[];
     public $status;
     public $existence;
     public $orders;
@@ -21,7 +23,7 @@ class HandymenManageBooking extends Component
         $this->orders = Order::whereHas('serviceProvider', function ($query) use ($handymanId) {
                 $query->where('id', $handymanId);
             })
-            ->whereIn('status', ['pending', 'quoted', 'paid', 'delivered'])
+            ->whereIn('status', ['pending', 'quoted', 'paid', 'delivered','scheduled','price updated'])
             ->with(['location', 'serviceProvider', 'user'])
             ->get();
 
@@ -36,7 +38,8 @@ class HandymenManageBooking extends Component
 
         if ($incomingOrder && $incomingOrder->status == 'pending') {
             $incomingOrder->status = 'quoted';
-            $incomingOrder->price = $this->price[$orderID] ?? null;
+            $incomingOrder->quoteMin=$this->quoteMin[$orderID];
+            $incomingOrder->quoteMax=$this->quoteMax[$orderID];
             $incomingOrder->save();
             session()->flash('success','you have quoted and accept an order');
         }
@@ -53,6 +56,22 @@ class HandymenManageBooking extends Component
             session()->flash('alert','you have declined the order');
         }
         return redirect('handymen-manage-booking');
+    }
+
+    public function updateFinalPrice($orderID){
+        $pendingFinalPriceOrder=Order::find($orderID);
+        if($pendingFinalPriceOrder->status == "scheduled"){
+            $pendingFinalPriceOrder->price = $this->price;
+            $pendingFinalPriceOrder->status='price updated';
+            $pendingFinalPriceOrder->save();
+            session()->flash('success','the final price has been updated');
+        }
+        else{
+            session()->flash('alert','fail please contact admin');
+        }
+
+        return redirect('handymen-manage-booking');
+
     }
 
     public function jobDone($orderID){

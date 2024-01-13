@@ -18,12 +18,12 @@
         <tbody>
             @foreach ($cases as $case)
                 <tr class="border border-slate-600">
-                    <td class="border border-slate-600">{{ $case->category }}</td>
-                    <td class="max-w-xs break-words">{{ $case->title }}</td>
-                    <td class="border border-slate-600" >{{ $case->caseID }}</td>
-                    <td class="border border-slate-600" >{{ $case->feedback }}</td>
-                    <td class="max-w-xs break-words border border-slate-600">{{ $case->description }}</td>
-                    <td class="border border-slate-600">{{ $case->status }}</td>
+                    <td class="p-4 border border-slate-600">{{ $case->category }}</td>
+                    <td class="max-w-xs p-4 break-words">{{ $case->title }}</td>
+                    <td class="p-4 border border-slate-600" >{{ $case->caseID }}</td>
+                    <td class="p-4 border border-slate-600" >{{ $case->feedback }}</td>
+                    <td class="max-w-xs p-4 break-words border border-slate-600">{{ $case->description }}</td>
+                    <td class="p-4 border border-slate-600">{{ $case->status }}</td>
                     {{-- <td class="py-4 border border-slate-600"><a class="px-4 py-2 text-white rounded-md bg-slate-700 hover:bg-slate-400"href="">View More Details</a></td> --}}
 
                 </tr>

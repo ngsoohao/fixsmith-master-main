@@ -75,7 +75,11 @@
                                 <td class="p-4 border border-slate-600">{{ $insuranceHistory->startDate }}</td>
                                 <td class="p-4 border border-slate-600">{{ $insuranceHistory->expiredDate }}</td>
                                 <td class="p-4 border border-slate-600">{{ $insuranceHistory->status }}</td>
-                                <td class="p-4 border border-slate-600"></td>
+                                <td class="p-4 border border-slate-600">
+                                    <button class="px-4 py-2 text-white bg-red-600 rounded-md hover:bg-red-400" wire:click='appealIncompleteInsurance({{ $insuranceHistory->insuranceID }})'>
+                                        Appeal for Incompleted Service
+                                    </button>
+                                </td>
                                 
                             </tr>       
                             @endforeach

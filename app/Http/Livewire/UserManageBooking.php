@@ -4,8 +4,8 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\Order;
-use App\Models\RateAndReview;
 use App\Models\StripeConnectAccounts;
+use App\Models\Cases;
 
 
 class UserManageBooking extends Component
@@ -15,7 +15,7 @@ class UserManageBooking extends Component
 
     public function mount(){
         $this->orders = Order::where('id', auth()->id())
-        ->whereIn('status', ['pending', 'paid', 'quoted','delivered'])
+        ->whereIn('status', ['pending', 'paid', 'quoted','delivered','scheduled','price updated'])
         ->with(['location', 'serviceProvider', 'user'])
         ->get();
 
@@ -25,22 +25,6 @@ class UserManageBooking extends Component
             ->get();
     }
 
-    // public function checkReviewExist(){
-        
-
-    //     $completedOrders = Order::where('status', 'completed')->get();
-    //     $this->existence = false;
-
-    //     foreach ($completedOrders as $order) {
-    //         $existingReview = RateAndReview::where('orderID', $order->orderID)->first();
-
-    //         if ($order && $existingReview) {
-    //         $this->existence = true;
-            
-    //         }
-    //     }
-    // }
-
     public function cancelOrder($orderID){
         $bookedOrder=Order::find($orderID);
 
@@ -48,6 +32,21 @@ class UserManageBooking extends Component
             $bookedOrder->status = 'canceled';
             $bookedOrder->save();
         }
+    }
+
+    public function acceptQuotedRange($orderID){
+        $acceptQuoteRangeOrder=Order::find($orderID);
+        if($acceptQuoteRangeOrder->status == 'quoted'){
+            $acceptQuoteRangeOrder->status = 'scheduled';
+            $acceptQuoteRangeOrder->save();
+            session()->flash('success','you have accepted the quote');
+        }
+        else{
+            session()->flash('alert','fail, unable to proceed');
+        }
+        
+        return redirect('user-manage-booking');
+
     }
 
     public function orderComplete($orderID){
@@ -81,6 +80,24 @@ class UserManageBooking extends Component
         }
 
         return redirect('user-manage-booking');
+    }
+
+    public function appealIncompleteOrder($orderID){
+        $userID=auth()->user()->id;
+        $newCase= new Cases;
+        $newCase->category='order';
+        $newCase->title='Service Imcomplete Appeal';
+        $newCase->description='userID: '.$userID.' orderID: '.$orderID;
+        $newCase->feedback='Please Wait for Admin to Contact You Via Email or Calls';
+        $newCase->status='pending';
+        $newCase->id=$userID;
+        $newCase->save();
+
+        // $appealedOrder=Order::find($orderID);
+        // $appealedOrder->status='appealed';
+
+        session()->flash('success','appeal submitted for review');
+        return redirect('manage-case');
     }
 
     public function render()
