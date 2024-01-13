@@ -13,4 +13,3 @@ composer install
 composer update
 php artisan serve
 ```
-### I have included the .env file in the email, you may drop it directly into the root folder
