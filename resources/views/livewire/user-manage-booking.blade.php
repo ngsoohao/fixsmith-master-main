@@ -73,8 +73,8 @@
                                     <a class="px-4 py-2 text-white rounded-md bg-slate-600 hover:bg-slate-400 text-md" href="{{route('checkout',[$order->orderID])}}">Checkout</a>
 
                                     @elseif($order->status =='delivered')
-                                    <button class="px-4 py-2 mb-5 text-white rounded-md bg-slate-600 hover:bg-slate-400 text-md"wire:click="orderComplete({{$order->orderID}})">Complete</button>
-                                    <button class="px-4 py-2 mt-2 text-white bg-red-600 rounded-md hover:bg-red-400 text-md" wire:click='appealIncompleteOrder({{ $order->orderID }})'>Incomplete</button>
+                                    <button class="px-4 py-2 text-white rounded-md bg-slate-600 hover:bg-slate-400 text-md"wire:click="orderComplete({{$order->orderID}})">Complete</button>
+                                    {{-- href="{{route('manage-review',[$order->orderID])}}" --}}
                                     @endif
                                 </td>
                             </tr>
