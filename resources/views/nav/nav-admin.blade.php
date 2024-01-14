@@ -5,5 +5,7 @@
     <a href="{{route('manage-service-type')}}" class="block p-3 shadow-xl hover:bg-gray-300">Manage Service Type</a>
     <a href="{{route('reply-case')}}" class="block p-3 shadow-xl hover:bg-gray-300">Cases</a>
     <a href="{{route('all-orders')}}" class="block p-3 shadow-xl hover:bg-gray-300">All Orders</a>
+    <a href="{{route('all-service-providers')}}" class="block p-3 shadow-xl hover:bg-gray-300">All Service Providers</a>
+
 
 </div>

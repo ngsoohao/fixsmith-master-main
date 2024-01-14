@@ -24,6 +24,7 @@
         </div>
         {{-- handymen list --}}
         <div class="mr-10 lg:w-4/5">
+            <h1 class="mb-5 text-3xl font-bold">{{ $serviceTypeName->serviceTypeName }}</h1>
             @foreach ($handymen as $handyman)
                 <div class="flex p-5 bg-white rounded-md lg:flex-row">
                     @if ($handyman)

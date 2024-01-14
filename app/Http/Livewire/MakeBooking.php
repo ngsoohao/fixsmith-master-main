@@ -25,12 +25,14 @@ class MakeBooking extends Component
     public bool $message;
     public $allOrderDate=[];
     public $allOrderTime=[];
+    public $serviceProviderDetails;
 
 
 
     public function mount($serviceProviderID){
         $this->serviceProviderID= $serviceProviderID;
         $this->userLocations = Location::where('id', auth()->user()->id)->get();
+        $this->serviceProviderDetails=ServiceProvider::where('serviceProviderID',$serviceProviderID)->first();
     }
 
     public function newOrder(){

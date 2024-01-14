@@ -20,7 +20,7 @@ class UserManageBooking extends Component
         ->get();
 
         $this->orderHistory = Order::where('id', auth()->id())
-            ->whereIn('status', ['canceled','completed'])
+            ->whereIn('status', ['cancelled','completed'])
             ->with(['location', 'serviceProvider', 'user'])
             ->get();
     }
@@ -29,7 +29,7 @@ class UserManageBooking extends Component
         $bookedOrder=Order::find($orderID);
 
         if ($bookedOrder && $bookedOrder->status == 'pending') {
-            $bookedOrder->status = 'canceled';
+            $bookedOrder->status = 'cancelled';
             $bookedOrder->save();
         }
     }

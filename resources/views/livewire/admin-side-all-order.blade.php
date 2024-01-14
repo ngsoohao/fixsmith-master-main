@@ -6,6 +6,7 @@
     </div>
 
     <div class="flex-grow w-6/7">
+        <h1 class="mb-4 text-2xl font-bold">All Orders</h1>
         <div>
             <input class="w-4/5 mx-auto mb-5 rounded-md"wire:model="search" type="text" placeholder="Search Orders..." />
         
@@ -21,19 +22,31 @@
                         <th class="px-4 py-2 text-white border border-r bg-slate-700 border-slate-600 border-r-white">Session ID</th>
                         <th class="px-4 py-2 text-white border border-r bg-slate-700 border-slate-600 border-r-white">Address</th>
                         <th class="px-4 py-2 text-white border border-r bg-slate-700 border-slate-600 border-r-white">Service Provider </th>
-                        <th class="px-4 py-2 text-white border border-r bg-slate-700 border-slate-600 border-r-white">Action</th>
+                        {{-- <th class="px-4 py-2 text-white border border-r bg-slate-700 border-slate-600 border-r-white">Action</th> --}}
 
                     </tr>
                 </thead>
                 @foreach($allOrders as $order)
                     <tr>
                         <td class="px-4 py-2 border border-gray-400">{{ $order->orderID }}</td>
-                        <td class="px-4 py-2 border border-gray-400">{{ $order->price }}</td>
+                        <td class="px-4 py-2 border border-gray-400">
+                            @if ($order->price) 
+                                {{ $order->price }}
+                            @else 
+                                <p>not quoted</p>
+                            @endif
+                        </td>
                         <td class="px-4 py-2 border border-gray-400">{{ $order->orderDate }}</td>
                         <td class="px-4 py-2 border border-gray-400">{{ $order->orderTime }}</td>
                         <td class="px-4 py-2 border border-gray-400">{{ $order->status }}</td>
                         <td class="px-4 py-2 border border-gray-400">{{ $order->serviceDescription }}</td>
-                        <td class="max-w-xs px-4 py-2 break-all border border-gray-400 ">{{ $order->sessionID }}</td>
+                        <td class="px-4 py-2 break-all border border-gray-400 max-w-s ">
+                            @if ($order->sessionID)
+                                {{ $order->sessionID }}
+                            @else
+                                <p>No payment record found</p>
+                            @endif
+                        </td>
                         <td class="px-4 py-2 border border-gray-400">
                             <address>
                                 {{ $order->location->unitNo }},{{ $order->location->street }},<br>
@@ -42,7 +55,7 @@
                             </address>
                         </td>
                         <td class="p-2 border border-gray-400">{{ $order->serviceProvider->user->name }}</td>
-                        <td class="p-2 border border-gray-400">
+                        {{-- <td class="p-2 border border-gray-400">
                             <div x-data="{ open: false }" x-cloak>
                                 <button class="px-4 py-2 text-white rounded-md bg-slate-700 hover:bg-slate-400" @click="open = !open">Expand</button>
                             
@@ -50,7 +63,7 @@
                                     <p>Hi</p>
                                 </div>
                             </div>
-                        </td>
+                        </td> --}}
                     </tr>
                 @endforeach
             </table>

@@ -75,8 +75,13 @@
                                 <td class="p-4 border border-slate-600">
                     
                                     @if ($order->status =='pending')
-                                        <button class="px-4 py-2 mb-2 text-white rounded-md bg-slate-700 text-md hover:bg-slate-400" wire:click='acceptAndQuote({{$order->orderID}})'>Quote And Accept</button>
-                                        <button class="px-4 py-2 mb-2 text-white bg-red-700 rounded-md hover:bg-red-400 text-md" wire:click='declineIncomingOrder({{ $order->orderID }})'>Decline</button>
+                                        @if ($stripeConnectStatus)
+                                            <button class="px-4 py-2 mb-2 text-white rounded-md bg-slate-700 text-md hover:bg-slate-400" wire:click='acceptAndQuote({{$order->orderID}})'>Quote And Accept</button>
+                                            <button class="px-4 py-2 mb-2 text-white bg-red-700 rounded-md hover:bg-red-400 text-md" wire:click='declineIncomingOrder({{ $order->orderID }})'>Decline</button>
+                                        @else
+                                            <p>Please set up stripe account to be able to accept orders</p>
+                                        @endif
+                                        
 
                                     @elseif($order->status =='quoted')
                                     <p>Waiting for customer to accept</p>

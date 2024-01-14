@@ -46,6 +46,8 @@ class IdentityDoc extends Component
         if (auth()->check()){
             $this->validate([
                 'fileName' => 'required|image|mimes:jpg,jpeg,png,svg|max:2048',
+                'name' =>'required|string|max:100',
+                'documentNumber'=>'required|numeric',
                 
             ]);
 
@@ -87,26 +89,39 @@ class IdentityDoc extends Component
     }
 
 
-    public function addServiceProvider(){
-
+    public function addServiceProvider()
+    {
         if (auth()->check()) {
-            $serviceProvider=new ServiceProvider();
-            $serviceProvider->id=auth()->User()->id;
-            $selectedServiceTypeID = ServiceType::where('serviceTypeName', $this->search)->first();
-    
-                if ($selectedServiceTypeID) {
-                    $serviceProvider->serviceTypeID=$selectedServiceTypeID->serviceTypeID;
-                    $serviceProvider->save();
-                } 
-            
+            $userID = auth()->user()->id;
+            $selectedServiceTypeName = $this->search;
+
+            $existingServiceProvider = ServiceProvider::where('id', $userID)
+                ->whereHas('serviceType', function ($query) use ($selectedServiceTypeName) {
+                    $query->where('serviceTypeName', $selectedServiceTypeName);
+                })
+                ->first();
+
+            if ($existingServiceProvider) {
+                session()->flash('alert','you have already added this service type');
                 return redirect('upload-identity-doc');
-            
-        }
-        else{
+            }
+
+            $serviceProvider = new ServiceProvider();
+            $serviceProvider->id = $userID;
+
+            $selectedServiceType = ServiceType::where('serviceTypeName', $selectedServiceTypeName)->first();
+
+            if ($selectedServiceType) {
+                $serviceProvider->serviceTypeID = $selectedServiceType->serviceTypeID;
+                $serviceProvider->save();
+            } else {
+                return redirect()->back()->with('error', 'Invalid service type selected.');
+            }
+
+            return redirect('upload-identity-doc');
+        } else {
             return redirect()->route('login');
         }
-        
-    
     }
 
     public function updatingSearch()
@@ -118,13 +133,12 @@ class IdentityDoc extends Component
         // Find the ServiceProvider record by ID
         $serviceProvider = ServiceProvider::find($serviceProviderID);
 
-        // Check if the record exists before attempting to delete
         if ($serviceProvider) {
             // Delete the ServiceProvider record
             $serviceProvider->delete();
 
-            // Refresh the Livewire component to reflect the updated list
-            $this->render();
+            return redirect('upload-identity-doc');
+            
         }
 
     }

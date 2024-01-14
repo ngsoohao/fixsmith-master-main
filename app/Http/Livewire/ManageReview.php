@@ -35,15 +35,25 @@ class ManageReview extends Component
 
         $order=Order::where('orderID',$orderID)->first();
 
-        if($order){
-            $review->serviceProviderID=$order->serviceProviderID;
-            session()->flash('success', 'Review submitted successfully!');
-            $review->save();
+        $existedReviews=RateAndReview::where('id',auth()->user()->id)->get();
+        foreach($existedReviews as $existedReview){
+            if($review->orderID==$existedReview->orderID){
+                session()->flash('alert','you have already reviewed this order');
+                return redirect('manage-reviews');
+            }
+            else{
+                if($order){
+                    $review->serviceProviderID=$order->serviceProviderID;
+                    session()->flash('success', 'Review submitted successfully!');
+                    $review->save();
+                }
+                else{
+                    return redirect('manage-review');
+                    $this->session()->flash('alert','Order Not Found');
+                }
+            }
         }
-        else{
-            return redirect('manage-review');
-            $this->session()->flash('alert','Order Not Found');
-        }
+        
         
         $this->refreshAverageRating($orderID);
         return redirect('user-manage-booking');

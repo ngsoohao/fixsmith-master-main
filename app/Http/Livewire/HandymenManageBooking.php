@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\Order;
+use App\Models\StripeConnectAccounts;
 
 class HandymenManageBooking extends Component
 {
@@ -88,9 +89,13 @@ class HandymenManageBooking extends Component
 
 public function render()
 {
+    $stripeConnectStatus=StripeConnectAccounts::where('id',auth()->user()->id)->first();
+
     return view('livewire.handymen-manage-booking',[
         
         'orders' => $this->orders,
+        'jobHistory'=>$this->jobHistory,
+        'stripeConnectStatus'=>$stripeConnectStatus,
         
     ]);
 }

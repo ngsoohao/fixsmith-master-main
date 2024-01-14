@@ -23,6 +23,7 @@ class GetHandymenList extends Component
     public $favLists;
     public $handymen;
     public $serviceProfiles=[];
+    public $serviceTypeName;
 
 
 
@@ -31,6 +32,7 @@ class GetHandymenList extends Component
         $this->serviceTypeID = $serviceTypeID;
         $this->favLists = FavouriteList::where('id', auth()->user()->id)->get();
         $this->handymen = ServiceProvider::with('user', 'reviews', 'serviceProfile')->where('serviceTypeID', $this->serviceTypeID)->get();
+        $this->serviceTypeName=ServiceType::where('serviceTypeID',$serviceTypeID)->first();
 
         foreach ($this->handymen as $handyman) {
             // Store the serviceProfile in the array using serviceProviderID as the key

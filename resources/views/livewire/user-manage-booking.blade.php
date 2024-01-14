@@ -74,7 +74,7 @@
 
                                     @elseif($order->status =='delivered')
                                     <button class="px-4 py-2 text-white rounded-md bg-slate-600 hover:bg-slate-400 text-md"wire:click="orderComplete({{$order->orderID}})">Complete</button>
-                                    {{-- href="{{route('manage-review',[$order->orderID])}}" --}}
+                                    <button class="px-4 py-2 text-white bg-red-600 rounded-md hover:bg-red-400" wire:click='appealIncompleteOrder({{ $order->orderID }})'>Incomplete</button>
                                     @endif
                                 </td>
                             </tr>
@@ -83,7 +83,7 @@
                 </table>
                 {{-- Order History..............................................................................................................  --}}
                 <h1 class="pt-2 pb-2 text-lg font-bold">Booking History</h1>
-                <table class="w-full border-collapse">
+                <table class="w-full mb-5 border-collapse">
                     <thead>
                         <tr class="text-center text-white border-2 border-slate-500 bg-slate-500">
                             <th class="p-4 border border-gray-300">OrderID</th>

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->time('orderTime'); 
             $table->decimal('quoteMin',10,2)->nulllable();
             $table->decimal('quoteMax',10,2)->nulllable();
-            $table->enum('status',['pending','quoted','scheduled','price updated','paid','delivered','completed','cancelled']);
+            $table->enum('status',['pending','quoted','scheduled','price updated','paid','delivered','completed','cancelled','declined']);
             $table->text('serviceDescription');
             $table->string('sessionID');
             $table->unsignedBigInteger('locationID');

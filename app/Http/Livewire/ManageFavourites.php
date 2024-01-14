@@ -34,10 +34,23 @@ class ManageFavourites extends Component
 
     }
     public function newFavList(){
-        $favouriteList=new FavouriteList();
-        $favouriteList->favouriteListName=$this->favouriteListName;
-        $favouriteList->id=auth()->user()->id;
-        $favouriteList->save();
+       
+
+        $existingFavouriteListNames=FavouriteList::where('id',auth()->user()->id)->get();
+
+        foreach($existingFavouriteListNames as $existingFavouriteListName){
+            if($this->favouriteListName==$existingFavouriteListName->favouriteListName){
+                session()->flash('alert','you already have this list name');
+                return redirect('manage-favourites');
+            }
+            else{
+                $favouriteList=new FavouriteList();
+                $favouriteList->favouriteListName=$this->favouriteListName;
+                $favouriteList->id=auth()->user()->id;
+                $favouriteList->save();
+            }
+        }
+        
 
         return redirect('manage-favourites');
 

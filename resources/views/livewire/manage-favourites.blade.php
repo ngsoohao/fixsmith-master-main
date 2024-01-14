@@ -1,6 +1,6 @@
 <div>
     @livewireStyles
-
+    @include('utils.sessionFlash')
     <div class="h-screen sm:block lg:flex ">
         <div class="flex-shrink-0 mr-5 border-r-2 w-1/7 border-slate-400">
             @include("nav.side-nav")            

@@ -2,67 +2,79 @@
     @livewireStyles
     
         <div class="rounded-lg bg-zinc-200">
-        
-        <form wire:submit.prevent="newOrder" class="max-w-md mx-auto">
-            <h1 class="mb-5 text-xl font-bold">Please insert your Details</h1>
-        
-                <label for="location">Choose a location:</label>
-                <select wire:model="selectedLocationID" id="location" class="w-full px-4 py-2 border rounded">
-                    <option value="">Select an address</option>
-                    @foreach ($userLocations as $location)
-                        <option value="{{ $location->locationID }}">
-                            {{ $location->unitNo }},
-                            {{ $location->street }},
-                            {{ $location->city }},
-                            {{ $location->postCode }}
-                            {{ $location->state }}
-                        </option>
-                    @endforeach
-                </select>
-        
-                <div class="mb-4">
-                    <label for="date" class="block mb-1">Select a date:</label>
-                    <input type="text" wire:model.lazy="orderDate" id="datepicker" wire:ignore class="w-full px-4 py-2 border rounded">
-                </div>
 
-                
+        <section class="max-w-3xl mx-auto ">
+            <div>
+                <h1 class="mb-5 text-3xl font-bold font-center">You are making a booking for {{ $serviceProviderDetails->serviceType->serviceTypeName }}</h1>
 
-                <div class="mb-4">
-                    <label for="time" class="block mb-1">Select a time:</label>
-                    <select wire:model="orderTime" id="time" wire:change="checkTimeAvailability" class="w-full px-4 py-2 border rounded">
-                        <option  value="10:00:00">10:00 AM</option>
-                        <option  value="11:00:00">11:00 AM</option>
-                        <option  value="12:00:00">12:00 PM</option>
-                        <option  value="13:00:00">1:00 PM</option>
-                        <option  value="14:00:00">2:00 PM</option>
-                        <option  value="15:00:00">3:00 PM</option>
-                        <option  value="16:00:00">4:00 PM</option>
-                        <option  value="17:00:00">5:00 PM</option>
-                    </select>
-                </div>
-
-                <div class="mb-4">
-
-                    @if($message)
-                    <p class="font-bold text-red-700">This time is not available.</p>
-                    @else
-                    <p class="font-bold text-green-700">This time is available.</p>
-                    @endif 
-                </div>
-                
-        
-                <div class="mb-4">
-                    <label for="serviceDetail" class="block mb-1">Service details</label>
-                    <textarea wire:model="serviceDescription" wire:ignore placeholder="Please describe the issue and service needed" class="w-full px-4 py-2 border rounded"></textarea>
-                </div>
-
-                
-        
-                <div class="flex items-center justify-between">
-                    <button class="px-4 py-2 text-white rounded-md bg-slate-600 hover:bg-slate-400 text-md" type="submit">Make Booking</button>
-                </div>
+                <h2 class="text-xl font-bold"> Handymen Details</h2>
+                <p>Handymen: {{ $serviceProviderDetails->user->name }}</p>
+                <p>Service Type: {{ $serviceProviderDetails->serviceType->serviceTypeName }}</p>
             </div>
-        </form>
+            <form wire:submit.prevent="newOrder" class="mt-5">
+    
+                <h1 class="text-xl font-bold ">Please insert your Details</h1>
+            
+                    <label for="location">Choose a location:</label>
+                    <select wire:model="selectedLocationID" id="location" class="w-full px-4 py-2 border rounded">
+                        <option value="">Select an address</option>
+                        @foreach ($userLocations as $location)
+                            <option value="{{ $location->locationID }}">
+                                {{ $location->unitNo }},
+                                {{ $location->street }},
+                                {{ $location->city }},
+                                {{ $location->postCode }}
+                                {{ $location->state }}
+                            </option>
+                        @endforeach
+                    </select>
+            
+                    <div class="mb-4">
+                        <label for="date" class="block mb-1">Select a date:</label>
+                        <input type="text" wire:model.lazy="orderDate" id="datepicker" wire:ignore class="w-full px-4 py-2 border rounded">
+                    </div>
+    
+                    
+    
+                    <div class="mb-4">
+                        <label for="time" class="block mb-1">Select a time:</label>
+                        <select wire:model="orderTime" id="time" wire:change="checkTimeAvailability" class="w-full px-4 py-2 border rounded">
+                            <option  value="10:00:00">10:00 AM</option>
+                            <option  value="11:00:00">11:00 AM</option>
+                            <option  value="12:00:00">12:00 PM</option>
+                            <option  value="13:00:00">1:00 PM</option>
+                            <option  value="14:00:00">2:00 PM</option>
+                            <option  value="15:00:00">3:00 PM</option>
+                            <option  value="16:00:00">4:00 PM</option>
+                            <option  value="17:00:00">5:00 PM</option>
+                        </select>
+                    </div>
+    
+                    <div class="mb-4">
+    
+                        @if($message)
+                        <p class="font-bold text-red-700">This time is not available.</p>
+                        @else
+                        <p class="font-bold text-green-700">This time is available.</p>
+                        @endif 
+                    </div>
+                    
+            
+                    <div class="mb-4">
+                        <label for="serviceDetail" class="block mb-1">Service details</label>
+                        <textarea wire:model="serviceDescription" wire:ignore placeholder="Please describe the issue and service needed" class="w-full px-4 py-2 border rounded"></textarea>
+                    </div>
+    
+                    
+            
+                    <div class="flex items-center justify-between">
+                        <button class="px-4 py-2 text-white rounded-md bg-slate-600 hover:bg-slate-400 text-md" type="submit">Make Booking</button>
+                    </div>
+                </div>
+            </form>
+            
+        </section>
+        
 
         
 

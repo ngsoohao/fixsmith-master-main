@@ -27,32 +27,32 @@
                     <h1 class="text-3xl font-bold">Popular Services</h1>
                 </div>
                 <div class="grid gap-4 mt-4 md:grid-cols-2 lg:grid-cols-3 sm:grid-cols-1">
-                    <!-- Service 1 -->
+                    <!-- aircon -->
                     <div class="p-4 mt-5 bg-white rounded-lg shadow-md">
-                        <a href="">
+                        <a href="{{ route('get-handymen-list',['serviceTypeID'=>1]) }}">
                             <img src="img/aircon.jpg" alt="Service 1" class="object-cover w-full h-48 mb-2">
                             <p class="text-md ">Aircond Services</p>
                         </a>
                     </div>
 
-                    <!-- Service 2 -->
+                    <!-- plumbing -->
                     <div class="p-4 mt-5 bg-white rounded-lg shadow-md">
-                        <a href="">
-                            <img src="img/cleaning.webp" alt="Service 2" class="object-cover w-full h-48 mb-2">
-                            <p class="text-md">Cleaning</p>
+                        <a href="{{ route('get-handymen-list',['serviceTypeID'=>2]) }}">
+                            <img src="img/plumbing.jpeg" alt="Service 2" class="object-cover w-full h-48 mb-2">
+                            <p class="text-md">Plumbing</p>
                         </a>
                     </div>
 
-                    <!-- Service 3 -->
+                    <!-- furniture assembly 3 -->
                     <div class="p-4 mt-5 bg-white rounded-lg shadow-md">
-                        <a href="">
+                        <a href="{{ route('get-handymen-list',['serviceTypeID'=>3]) }}">
                             <img src="img/furnitureassembly.jpg" alt="Service 3" class="object-cover w-full h-48 mb-2">
                             <p class="text-md ">Furniture Assembly</p>
                         </a>
                     </div>
                     <!-- Service 4 -->
                     <div class="p-4 mt-5 bg-white rounded-lg shadow-md">
-                        <a href="">
+                        <a href="{{ route('get-handymen-list',['serviceTypeID'=>4]) }}">
                             <img src="img/helpmoving.jpg" alt="Service 1" class="object-cover w-full h-48 mb-2">
                             <p class="text-md ">House Moving</p>
                         </a>
@@ -60,15 +60,15 @@
 
                     <!-- Service 5 -->
                     <div class="p-4 mt-5 bg-white rounded-lg shadow-md">
-                        <a href="">
-                            <img src="img/plumbing.jpeg" alt="Service 2" class="object-cover w-full h-48 mb-2">
-                            <p class="text-md ">Plumbing</p>
+                        <a href="{{ route('get-handymen-list',['serviceTypeID'=>5]) }}">
+                            <img src="img/cleaning.webp" alt="Service 2" class="object-cover w-full h-48 mb-2">
+                            <p class="text-md ">Cleaning</p>
                         </a>
                     </div>
 
                     <!-- Service 6 -->
                     <div class="p-4 mt-5 bg-white rounded-lg shadow-md">
-                        <a href="">
+                        <a href="{{ route('get-handymen-list',['serviceTypeID'=>6]) }}">
                             <img src="img/pestcontrol.jpg" alt="Service 3" class="object-cover w-full h-48 mb-2">
                             <p class="text-md ">Pest Control</p>
                         </a>
