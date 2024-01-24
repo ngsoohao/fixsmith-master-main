@@ -56,7 +56,14 @@
                                 </div>
                             </div>
                         
-                            <p class="p-2 rounded-md bg-slate-200">Has an average ratings of {{$handyman->averageRating}}</p>
+                            @if ($handyman->averageRating) 
+                                <p class="p-2 rounded-md bg-slate-200">
+                                    Has an average rating of {!! $this->convertRatingToStars($handyman->averageRating) !!}
+                                </p>
+                            @else 
+                                <p>This handymen has no rating yet</p>
+                            @endif
+
                             <p class="w-1/2 p-2 mt-5 mb-1 text-center text-white rounded-md bg-slate-700">How can I help:</p>
                             @if ($serviceProfiles[$handyman->serviceProviderID] !== null)
                                 <p class="break-all lg:max-w-4xl">{{ $serviceProfiles[$handyman->serviceProviderID]->aboutMe }}</p>

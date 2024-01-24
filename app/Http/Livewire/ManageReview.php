@@ -25,32 +25,33 @@ class ManageReview extends Component
     public function mount($orderID){
         $this->orderID=$orderID;
     }
+
     public function newReview($orderID){
-        
+        $order=Order::where('orderID',$orderID)->first();
+
+        //check if there is existing review
+        $userReview=RateAndReview::where('orderID',$this->orderID)->get();
+        foreach($userReview as $review){
+            if($orderID == $review->orderID){
+                session()->flash('alert','you have already added review for this order');
+                return redirect('user-manage-booking');
+            }
+        }
         $review=new RateAndReview;
         $review->reviewText=$this->reviewText;
         $review->rating=$this->rating;
         $review->orderID=$this->orderID;
+        $review->serviceProviderID=$order->serviceProviderID;
         $review->id=auth()->user()->id;
+        session()->flash('success', 'Review submitted successfully!');
+        $review->save();
 
-        $order=Order::where('orderID',$orderID)->first();
 
         $existedReviews=RateAndReview::where('id',auth()->user()->id)->get();
         foreach($existedReviews as $existedReview){
             if($review->orderID==$existedReview->orderID){
                 session()->flash('alert','you have already reviewed this order');
-                return redirect('manage-reviews');
-            }
-            else{
-                if($order){
-                    $review->serviceProviderID=$order->serviceProviderID;
-                    session()->flash('success', 'Review submitted successfully!');
-                    $review->save();
-                }
-                else{
-                    return redirect('manage-review');
-                    $this->session()->flash('alert','Order Not Found');
-                }
+                return redirect('review-history');
             }
         }
         

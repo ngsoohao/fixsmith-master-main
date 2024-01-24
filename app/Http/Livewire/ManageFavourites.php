@@ -35,23 +35,20 @@ class ManageFavourites extends Component
     }
     public function newFavList(){
        
-
-        $existingFavouriteListNames=FavouriteList::where('id',auth()->user()->id)->get();
-
-        foreach($existingFavouriteListNames as $existingFavouriteListName){
-            if($this->favouriteListName==$existingFavouriteListName->favouriteListName){
-                session()->flash('alert','you already have this list name');
+        foreach ($this->allFavList as $favList) {
+            if ($this->favouriteListName == $favList->favouriteListName) {
+                session()->flash('alert', 'You cannot add duplicated list name');
                 return redirect('manage-favourites');
             }
-            else{
-                $favouriteList=new FavouriteList();
-                $favouriteList->favouriteListName=$this->favouriteListName;
-                $favouriteList->id=auth()->user()->id;
-                $favouriteList->save();
-            }
         }
-        
-
+    
+        // If no duplicated names are found, create a new list
+        $favouriteList = new FavouriteList();
+        $favouriteList->favouriteListName = $this->favouriteListName;
+        $favouriteList->id = auth()->user()->id;
+        $favouriteList->save();
+    
+        session()->flash('success', 'You have added a new list');
         return redirect('manage-favourites');
 
     }

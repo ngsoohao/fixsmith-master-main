@@ -68,7 +68,7 @@ class MakeBooking extends Component
 
     public function checkTimeAvailability(){
         $allServiceProviderOrders=Order::where('serviceProviderID',$this->serviceProviderID)
-        ->whereIn('status',['quoted','paid'])
+        ->whereIn('status',['quoted','paid','scheduled'])
         ->get();
         //dd($allServiceProviderOrders);
         $this->message = false;

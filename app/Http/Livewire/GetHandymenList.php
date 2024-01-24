@@ -40,6 +40,16 @@ class GetHandymenList extends Component
         }
     }
 
+    public function convertRatingToStars($rating)
+    {
+        $fullStars = floor($rating);
+        $halfStar = round($rating - $fullStars, 1) > 0 ? 1 : 0;
+
+        $starString = str_repeat('⭐', $fullStars) . ($halfStar ? '' : '');
+
+        return $starString;
+    }
+
     public function addFavourites($favouriteListID,$serviceProviderID){
         $favourites=new FavouriteListContent();
         $favourites->favouriteListID=$favouriteListID;
